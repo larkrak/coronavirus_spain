@@ -3,7 +3,7 @@ import MapView from './components/Spain/MapView';
 import World from './components/world/World';
 import Landing from './components/Spain/Landing';
 import React from 'react';
-
+import ParticlesBackground from './components/Spain/ParticlesBackground';
 
 import {
   BrowserRouter as Router,
@@ -17,7 +17,7 @@ function App() {
   return (
     
     <Router>
-    {/* <ParticlesBackground /> */}
+   <ParticlesBackground/> 
       <div>
         <Route exact path="/">
           <Grid container spacing={0}
