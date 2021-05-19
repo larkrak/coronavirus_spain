@@ -1,8 +1,9 @@
 import './App.css';
 import MapView from './components/Spain/MapView';
-import Landing from './components/Spain/Landing'
+import World from './components/world/World';
+import Landing from './components/Spain/Landing';
 import React from 'react';
-import ParticlesBackground from './components/Spain/ParticlesBackground'
+
 
 import {
   BrowserRouter as Router,
@@ -16,9 +17,8 @@ function App() {
   return (
     
     <Router>
-      <ParticlesBackground />
+    {/* <ParticlesBackground /> */}
       <div>
-      
         <Route exact path="/">
           <Grid container spacing={0}
                 direction="row"
@@ -43,7 +43,7 @@ function App() {
         <MapView></MapView>
       </Route>
       <Route exact path="/world">
-        <h1>pipi</h1>
+        <World></World>
       </Route>
       <Route path="/news">
         <h2>asd</h2>
