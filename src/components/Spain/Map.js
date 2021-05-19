@@ -22,25 +22,25 @@ import Button from '@material-ui/core/Button';
 
 
 const CCAAsetup = {
-    "01":{code: "01", name: "Andalucia", provincias: ['AL', 'CA', 'CO', 'GR', 'H', 'J', 'MA', 'SE'], casos_totales: 0, uci_totales: 0, def_totales: 0, color: "#06d6a0"},
-    "02":{code: "02", name: "Aragón", provincias:['HU', 'TE', 'Z'], casos_totales: 0, uci_totales: 0, def_totales: 0, color: "#f72585"},
-    "03":{code: "03", name: "Islas Baleares", provincias: ['PM'], casos_totales: 0, uci_totales: 0, def_totales: 0, color: "#3fc1c0"},
-    "04":{code: "04", name: "Canarias", provincias: ['GC','TF'], casos_totales: 0, uci_totales: 0, def_totales: 0, color: "#f9c74f"},
-    "05":{code: "05", name: "Cantabria", provincias: ['S'], casos_totales: 0, uci_totales: 0, def_totales: 0, color: "#7dcfb6"},
-    "06":{code: "06", name: "Castilla-La Mancha", provincias: ['AB','CR','GU','TO'], casos_totales: 0, uci_totales: 0, def_totales: 0, color: "#432818"},
-    "07":{code: "07", name: "Castilla y León", provincias: ['AV','BU','LE','P','SA','SG','SO','VA','ZA'], casos_totales: 0, uci_totales: 0, def_totales: 0, color: "#bb9457"},
-    "08":{code: "08", name: "Cataluña", provincias:['B','GI','L','T'], casos_totales: 0, uci_totales: 0, def_totales: 0, color: "#be0aff"},
-    "09":{code: "09", name: "Ciudad Autónoma de Ceuta", provincias:['CE'], casos_totales: 0, uci_totales: 0, def_totales: 0, color: "#f9b27c"},
-    "10":{code: "10", name: "Extremadura", provincias:['BA','CC'], casos_totales: 0, uci_totales: 0, def_totales: 0, color: "#fe6d73"},
-    "11":{code: "11", name: "Galicia", provincias:['C', 'LU', 'OR', 'PO'], casos_totales: 0, uci_totales: 0, def_totales: 0, color: "#ef476f"},
-    "12":{code: "12", name: "La Rioja", provincias:['LO'], casos_totales: 0, uci_totales: 0, def_totales: 0, color: "#248232"},
-    "13":{code: "13", name: "Madrid", provincias:['M'], casos_totales: 0, uci_totales: 0, def_totales: 0, color: "#f9c80e"},
-    "14":{code: "14", name: "Ciudad Autónoma de Melilla", casos_totales: 0, uci_totales: 0, def_totales: 0, provincias:['ML'], color: "#118ab2"},
-    "15":{code: "15", name: "Murcia", provincias:['MU'], casos_totales: 0, uci_totales: 0, def_totales: 0, color: "#073b4c"},
-    "16":{code: "16", name: "Comunidad Foral de Navarra", provincias:['NA'], casos_totales: 0, uci_totales: 0, def_totales: 0, color: "#ee6c4d"},
-    "17":{code: "17", name: "País Vasco", provincias:['VI','BI','SS'], casos_totales: 0, uci_totales: 0, def_totales: 0, color: "#293241"},
-    "18":{code: "18", name: "Principado de Asturias", provincias:["O"], casos_totales: 0, uci_totales: 0, def_totales: 0, color: "#a4161a"},
-    "19":{code: "19", name: "Comunidad Valenciana", provincias:['A','CS','V'], casos_totales: 0, uci_totales: 0, def_totales: 0, color: "#8d0801"}
+    "AN":{code: "01", name: "Andalucia", provincias: ['AL', 'CA', 'CO', 'GR', 'H', 'J', 'MA', 'SE'], casos_totales: 0, uci_totales: 0, def_totales: 0, color: "#06d6a0"},
+    "AR":{code: "02", name: "Aragón", provincias:['HU', 'TE', 'Z'], casos_totales: 0, uci_totales: 0, def_totales: 0, color: "#f72585"},
+    "IB":{code: "03", name: "Islas Baleares", provincias: ['PM'], casos_totales: 0, uci_totales: 0, def_totales: 0, color: "#3fc1c0"},
+    "CN":{code: "04", name: "Canarias", provincias: ['GC','TF'], casos_totales: 0, uci_totales: 0, def_totales: 0, color: "#f9c74f"},
+    "CB":{code: "05", name: "Cantabria", provincias: ['S'], casos_totales: 0, uci_totales: 0, def_totales: 0, color: "#7dcfb6"},
+    "CM":{code: "06", name: "Castilla-La Mancha", provincias: ['AB','CR','GU','TO'], casos_totales: 0, uci_totales: 0, def_totales: 0, color: "#432818"},
+    "CL":{code: "07", name: "Castilla y León", provincias: ['AV','BU','LE','P','SA','SG','SO','VA','ZA'], casos_totales: 0, uci_totales: 0, def_totales: 0, color: "#bb9457"},
+    "CT":{code: "08", name: "Cataluña", provincias:['B','GI','L','T'], casos_totales: 0, uci_totales: 0, def_totales: 0, color: "#be0aff"},
+    "CE":{code: "09", name: "Ciudad Autónoma de Ceuta", provincias:['CE'], casos_totales: 0, uci_totales: 0, def_totales: 0, color: "#f9b27c"},
+    "EX":{code: "10", name: "Extremadura", provincias:['BA','CC'], casos_totales: 0, uci_totales: 0, def_totales: 0, color: "#fe6d73"},
+    "GA":{code: "11", name: "Galicia", provincias:['C', 'LU', 'OR', 'PO'], casos_totales: 0, uci_totales: 0, def_totales: 0, color: "#ef476f"},
+    "RI":{code: "12", name: "La Rioja", provincias:['LO'], casos_totales: 0, uci_totales: 0, def_totales: 0, color: "#248232"},
+    "MD":{code: "13", name: "Madrid", provincias:['M'], casos_totales: 0, uci_totales: 0, def_totales: 0, color: "#f9c80e"},
+    "ML":{code: "14", name: "Ciudad Autónoma de Melilla", casos_totales: 0, uci_totales: 0, def_totales: 0, provincias:['ML'], color: "#118ab2"},
+    "MC":{code: "15", name: "Murcia", provincias:['MU'], casos_totales: 0, uci_totales: 0, def_totales: 0, color: "#073b4c"},
+    "NC":{code: "16", name: "Comunidad Foral de Navarra", provincias:['NA'], casos_totales: 0, uci_totales: 0, def_totales: 0, color: "#ee6c4d"},
+    "PV":{code: "17", name: "País Vasco", provincias:['VI','BI','SS'], casos_totales: 0, uci_totales: 0, def_totales: 0, color: "#293241"},
+    "AS":{code: "18", name: "Principado de Asturias", provincias:["O"], casos_totales: 0, uci_totales: 0, def_totales: 0, color: "#a4161a"},
+    "VC":{code: "19", name: "Comunidad Valenciana", provincias:['A','CS','V'], casos_totales: 0, uci_totales: 0, def_totales: 0, color: "#8d0801"}
     
 }
 
@@ -53,23 +53,38 @@ const [data_region, dataSetRegion] = useState([])
 const [casesByDate, setCasesByDate] = useState([])
 const [dates, setDates] = useState([])
 
-const [typeOfData, setTypeOfData] = useState(10);
-const [daysToShow, setDaysToShow] = useState(10);
+const [typeOfData, setTypeOfData] = useState(0);
+const [daysToShow, setDaysToShow] = useState(0);
+
+const [prueba, setPrueba] = useState([{}]);
+const [data, setDataPrueba] = useState()
 
 const myRefTypeOfData = useRef(typeOfData);
 const myRefDaysToShow = useRef(daysToShow);
+
+
+const refPrueba = useRef()
 
 const [open, setOpen] = useState(false);
 const [open2, setOpen2] = useState(false);
 
 const [restrictions, setRestrictions] = useState(false)
 
+
 const handleChangeType = (event) => {
   setTypeOfData(event.target.value);
   myRefTypeOfData.current = event.target.value;
-  setCasesByDate([])
+  /*setCasesByDate([])
   dataSetRegion([])
-  dataSetCCAA([])
+  dataSetCCAA([])*/
+  
+  if(refPrueba.current !== undefined){
+
+    let newValues = refPrueba.current[myRefTypeOfData.current][0].slice(-myRefDaysToShow.current)
+
+    setCasesByDate([newValues, refPrueba.current[myRefTypeOfData.current][1]])
+    setDates(generateDatesArray().slice(-myRefDaysToShow.current))
+  }
 };
 
 const handleClose = () => {
@@ -80,13 +95,25 @@ const handleOpen = () => {
   setOpen(true);
 };
 
+
 const handleChangeDays = (event) => {
   setDaysToShow(event.target.value);
   myRefDaysToShow.current = event.target.value
-  setCasesByDate([])
-  dataSetRegion([])
-  dataSetCCAA([])
 
+  if(refPrueba.current !== undefined){
+
+    console.log(myRefDaysToShow.current)
+    console.log(myRefTypeOfData.current)
+
+    console.log(refPrueba.current)
+
+    let newValues = refPrueba.current[myRefTypeOfData.current][0].slice(-myRefDaysToShow.current)
+    console.log(newValues)
+
+    setCasesByDate([newValues, refPrueba.current[myRefTypeOfData.current][1]])
+    setDates(generateDatesArray().slice(-myRefDaysToShow.current))
+
+  }
 };
 
 const handleClose2 = () => {
@@ -96,6 +123,62 @@ const handleClose2 = () => {
 const handleOpen2 = () => {
   setOpen2(true);
 };
+
+/**
+ * 
+ * 
+ * 
+ * 
+ * 
+ * ////////////////////////////////////////////////
+ * ////////////////////////////////////////////////
+ * 
+ * 
+ *
+ * 
+ * 
+ * 
+ * 
+*/
+
+/*
+
+
+//     label: data_region[1] ? data_region[1] : '',
+//     data: data_ccaa[3] !== undefined && CCAAsetup[data_ccaa[3]].provincias.length > 1 ? data_region : '',
+//     backgroundColor: [
+//       '#99d98c',
+//     ],
+//     barThickness: 80,
+
+*/
+
+const asd = (event) => {
+
+  let ccaa = data_ccaa[1]
+  let isoClicked = data_ccaa[3] 
+
+  for (var [key, value] of Object.entries(CCAAsetup)) {
+
+    if(key === isoClicked){
+      for (var [key2, value2] of Object.entries(value)){
+
+        if(key2 === 'provincias'){
+
+          console.log(value2)
+
+
+
+
+        }
+
+      }
+    }
+    
+  } 
+
+};
+
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -132,35 +215,29 @@ function generateDatesArray(){
 }
 
 
+
+
 function onEachFeature(feature, layer) {
 
     if (feature.properties && feature.properties.name) {
 
         let region = feature.properties.name;
 
-        CCAAsetup[feature.properties.cod_ccaa].casos_totales = feature.properties.total_casos_ccaa
+        CCAAsetup[feature.properties.iso_ccaa].casos_totales = feature.properties.total_casos_ccaa
 
-        layer.options.color = CCAAsetup[feature.properties.cod_ccaa].color
+        layer.options.color = CCAAsetup[feature.properties.iso_ccaa].color
 
 
         layer.on('click', function (e) {
 
-          let ccaa = CCAAsetup[feature.properties.cod_ccaa].name
+          let ccaa = CCAAsetup[feature.properties.iso_ccaa].name
 
-          
-
-          //dataSetCCAA([e.target.feature.properties.total_casos_ccaa, [CCAAsetup[e.target.feature.properties.cod_ccaa].name], e.target.options.color])
           dataSetRegion([e.target.feature.properties.total_casos_provincia, [e.target.feature.properties.name]])
-          dataSetCCAA([e.target.feature.properties.total_casos_ccaa, CCAAsetup[e.target.feature.properties.cod_ccaa].name, e.target.options.color, e.target.feature.properties.cod_ccaa])
+          dataSetCCAA([e.target.feature.properties.total_casos_ccaa, CCAAsetup[e.target.feature.properties.iso_ccaa].name, e.target.options.color, e.target.feature.properties.iso_ccaa, e.target.feature.properties.iso_prov])
+          
+          setPrueba([{total: e.target.feature.properties.total_casos_ccaa, name: CCAAsetup[e.target.feature.properties.iso_ccaa].name, color: e.target.options.color, iso_ccaa: e.target.feature.properties.iso_ccaa, iso_prov: e.target.feature.properties.iso_prov}])
+
           setRestrictions(true)
-            /*layer.bindPopup('<Card><Cardcontent>'
-            +'<Typography variant="{h1}">'+region+'</Typography><br>'
-            +'<h4>Casos Históricos:</h4>'
-            +'<table class="info" >'
-                + '<tr><th>Casos Totales Diagnosticados</th><th>Casos totales de ingresos en UCI</th><th>Casos totales de defunciones</th></tr>'
-                + '<tr><td>'+e.target.feature.properties.total_casos+'</td><td>'+e.target.feature.properties.total_uci+'</td><td>'+e.target.feature.properties.total_def+'</td></tr>'
-            +'</table>'
-            +'</Cardcontent></Card>').openPopup()*/
 
           layer.bindPopup('<div class="info">'
           +'<h1>'+region+', '+ccaa+'</h1>'
@@ -179,19 +256,7 @@ function onEachFeature(feature, layer) {
 
           var dates = generateDatesArray();
 
-          // if(myRefDaysToShow.current == 30){
-          //   hospByDate = hospByDate.slice(-30)
-          //   dates = dates.slice(-30)
-          // }
-          // if(myRefDaysToShow.current == 60){
-          //   uciByDate = uciByDate.slice(-60)
-          //   dates = dates.slice(-60)
-          // }
-          // if(myRefDaysToShow.current == 90){
-          //   defByDate = defByDate.slice(-90)
-          //   dates = dates.slice(-90)
-          // }
-          if(myRefDaysToShow.current !== 10){
+          if(myRefDaysToShow.current !== 0){
             casesByDate = casesByDate.slice(-myRefDaysToShow.current)
             hospByDate = hospByDate.slice(-myRefDaysToShow.current)
             uciByDate = uciByDate.slice(-myRefDaysToShow.current)
@@ -199,17 +264,21 @@ function onEachFeature(feature, layer) {
             dates = dates.slice(-myRefDaysToShow.current)
           }
 
-          if(myRefTypeOfData.current === 10){
-            setCasesByDate([casesByDate,e.target.feature.properties.name])
+          let regName = e.target.feature.properties.name
+
+          refPrueba.current = [[casesByDate, regName], [hospByDate, regName], [uciByDate, regName], [defByDate, regName]]
+
+          if(myRefTypeOfData.current === 0){
+            setCasesByDate([casesByDate,regName])
           }
-          if(myRefTypeOfData.current === 20){
-            setCasesByDate([hospByDate,e.target.feature.properties.name])
+          if(myRefTypeOfData.current === 1){
+            setCasesByDate([hospByDate,regName])
           }
-          if(myRefTypeOfData.current === 30){
-            setCasesByDate([uciByDate,e.target.feature.properties.name])
+          if(myRefTypeOfData.current === 2){
+            setCasesByDate([uciByDate,regName])
           }
-          if(myRefTypeOfData.current === 40){
-            setCasesByDate([defByDate,e.target.feature.properties.name])
+          if(myRefTypeOfData.current === 3){
+            setCasesByDate([defByDate,regName])
           }
           setDates(dates)
         });
@@ -233,14 +302,10 @@ const theme = createMuiTheme({
   }
 });
 
-
-console.log(data_ccaa[3])
-
-
     return (
 
       <Grid container>
-          <Grid item xs={12} sm={12} md={12} lg={8} style={{height:"80%", padding:"15px"}}>
+          <Grid item xs={12} sm={12} md={12} lg={8} style={{padding:"15px"}}>
             <a href="/">
               <Button
                 variant="contained"
@@ -288,10 +353,10 @@ console.log(data_ccaa[3])
                           value={typeOfData}
                           onChange={handleChangeType}
                         >
-                          <MenuItem value={10}>Show Total Cases</MenuItem>
-                          <MenuItem value={20}>Show Total Hospitalizations</MenuItem>
-                          <MenuItem value={30}>Show Total UCI Cases</MenuItem>
-                          <MenuItem value={40}>Show Total Defunctions</MenuItem>
+                          <MenuItem value={0}>Show Total Cases</MenuItem>
+                          <MenuItem value={1}>Show Total Hospitalizations</MenuItem>
+                          <MenuItem value={2}>Show Total UCI Cases</MenuItem>
+                          <MenuItem value={3}>Show Total Defunctions</MenuItem>
                         </Select>
                       </FormControl>
 
@@ -306,7 +371,7 @@ console.log(data_ccaa[3])
                           value={daysToShow}
                           onChange={handleChangeDays}
                         >
-                          <MenuItem value={10}>All</MenuItem>
+                          <MenuItem value={0}>All</MenuItem>
                           <MenuItem value={30}>Last 30</MenuItem>
                           <MenuItem value={60}>Last 60</MenuItem>
                           <MenuItem value={90}>Last 90</MenuItem>
@@ -343,6 +408,13 @@ console.log(data_ccaa[3])
                           <Typography variant="h3"  color="textSecondary" gutterBottom>
                             Total cases compared
                           </Typography>
+                          <FormControl className={classes.formControl}>
+                            <Button 
+                            onClick={asd}
+                            variant="contained">
+                              Add Region
+                            </Button>
+                          </FormControl>
                         </ThemeProvider>
                             <CardContent>
                                 <Bar
@@ -350,7 +422,7 @@ console.log(data_ccaa[3])
                                       labels: data_ccaa[1] ? ["Total Coronavirus Cases"] : '',
                                         datasets: [
                                         {
-                                          label: data_ccaa[1] ? data_ccaa[1] : '',
+                                          label: data_ccaa[1] ? data_ccaa[1] : '', 
                                           data: data_ccaa,
                                           backgroundColor: [
                                             data_ccaa[2]
@@ -364,22 +436,24 @@ console.log(data_ccaa[3])
                                             '#99d98c',
                                           ],
                                           barThickness: 80
-                                        }                              
+                                        },                     
                                       ],
-                                  }}
 
 
+                                      
+                                      }}
                                />
                             </CardContent>
                         </Card>
                     </Box>
                 </Grid>
-
           </Grid>
 
           <Grid item xs={12} sm={12} md={12} lg={12} >
             <Restrictions style={{overflow:"auto"}} restrictions={restrictions}></Restrictions>
           </Grid>
+
+          
       </Grid>
 
    

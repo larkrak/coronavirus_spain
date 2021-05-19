@@ -3,7 +3,7 @@ import papa from 'papaparse'
 import * as dfd from "danfojs/src/index";
 import data from './data_final_per_region_and_CCAA_historic.csv'
 
-class LoadCountriesTask {
+class LoadDataTask {
 
     setState = null
     mapRegions = features
@@ -64,4 +64,4 @@ class LoadCountriesTask {
 
 }
 
-export default LoadCountriesTask
+export default LoadDataTask

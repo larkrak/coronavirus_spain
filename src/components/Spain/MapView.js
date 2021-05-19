@@ -1,7 +1,7 @@
 import React, {useState, useEffect } from 'react';
 import Loading from './Loading'
 import CovidMap from './Map'
-import LoadCountriesTask from '../../tasks/LoadCountriesTask'
+import LoadDataTask from '../../tasks/LoadDataTask'
 
 
 const MapView = () => {
@@ -9,8 +9,8 @@ const MapView = () => {
     const [provincias, setProvincias] = useState([]);
 
     const load = () => {
-        const loadCountriesTask = new LoadCountriesTask();
-        loadCountriesTask.load(setProvincias)
+        const loadDataTask = new LoadDataTask();
+        loadDataTask.load(setProvincias)
     };
 
     useEffect(load, []);

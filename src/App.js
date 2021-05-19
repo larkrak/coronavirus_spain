@@ -30,11 +30,11 @@ function App() {
             ></Landing>
             <Landing numColumns={3} router={"/world"}
                       name={"MUNDO"}
-                    background={"https://cdn.pixabay.com/photo/2015/04/15/16/44/world-724108_1280.jpg"}
+                    background={"https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1352&q=80"}
             ></Landing>
             <Landing numColumns={3} router={"/news"}
                       name={"INFORMACIÓN"}
-                    background={"http://www.educacionyfp.gob.es/dam/jcr:00573f9f-8848-41f9-b54c-42c9ac036919/covid-como-protegerse.jpg"}
+                    background={"https://www.isglobal.org/documents/10179/7701712/covid+virus+3d.jpg"}
 
             ></Landing>
           </Grid>
