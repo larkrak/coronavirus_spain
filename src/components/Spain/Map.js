@@ -57,7 +57,7 @@ const [typeOfData, setTypeOfData] = useState(0);
 const [daysToShow, setDaysToShow] = useState(0);
 
 const [prueba, setPrueba] = useState([{}]);
-const [data, setDataPrueba] = useState()
+const [dataIntoTheChart, setDataToChart] = useState([])
 
 const myRefTypeOfData = useRef(typeOfData);
 const myRefDaysToShow = useRef(daysToShow);
@@ -74,9 +74,6 @@ const [restrictions, setRestrictions] = useState(false)
 const handleChangeType = (event) => {
   setTypeOfData(event.target.value);
   myRefTypeOfData.current = event.target.value;
-  /*setCasesByDate([])
-  dataSetRegion([])
-  dataSetCCAA([])*/
   
   if(refPrueba.current !== undefined){
 
@@ -102,13 +99,8 @@ const handleChangeDays = (event) => {
 
   if(refPrueba.current !== undefined){
 
-    console.log(myRefDaysToShow.current)
-    console.log(myRefTypeOfData.current)
-
-    console.log(refPrueba.current)
 
     let newValues = refPrueba.current[myRefTypeOfData.current][0].slice(-myRefDaysToShow.current)
-    console.log(newValues)
 
     setCasesByDate([newValues, refPrueba.current[myRefTypeOfData.current][1]])
     setDates(generateDatesArray().slice(-myRefDaysToShow.current))
@@ -124,39 +116,38 @@ const handleOpen2 = () => {
   setOpen2(true);
 };
 
-/**
- * 
- * 
- * 
- * 
- * 
- * ////////////////////////////////////////////////
- * ////////////////////////////////////////////////
- * 
- * 
- *
- * 
- * 
- * 
- * 
-*/
-
 /*
 
 
-//     label: data_region[1] ? data_region[1] : '',
-//     data: data_ccaa[3] !== undefined && CCAAsetup[data_ccaa[3]].provincias.length > 1 ? data_region : '',
-//     backgroundColor: [
-//       '#99d98c',
-//     ],
-//     barThickness: 80,
+// {
+//   label: data_ccaa[1] ? data_ccaa[1] : '', 
+//   data: data_ccaa,
+//   backgroundColor: [
+//     data_ccaa[2]
+//   ],
+//   barThickness: 90,
+// },
 
 */
 
-const asd = (event) => {
+const refTemp = useRef()
+
+function random_rgba() {
+  let arr = ["#ffadad", "#ffd6a5", "#fdffb6", "#caffbf", "#9bf6ff", "#a0c4ff", "#bdb2ff", "#ffc6ff"]
+  let random = Math.floor(Math.random() * (arr.length - 0)) + 0;
+  return arr[random];
+}
+
+const addTheOtherRegions = (event) => {
+
 
   let ccaa = data_ccaa[1]
   let isoClicked = data_ccaa[3] 
+
+  let arrayOfObjectsDataChart = []
+  let dataCCAA = []
+
+  console.log(provincias)
 
   for (var [key, value] of Object.entries(CCAAsetup)) {
 
@@ -165,13 +156,47 @@ const asd = (event) => {
 
         if(key2 === 'provincias'){
 
-          console.log(value2)
+          if(value2.length > 1){
 
+            for(var [num, feature] of Object.entries(provincias)){
 
+                if(value[key2].indexOf(feature.properties.iso_prov) != -1){
 
+                  refTemp.current = {
+                    label: feature.properties.name,
+                    data: [feature.properties.total_casos_provincia],
+                    backgroundColor:[
+                      random_rgba()
+                    ], 
+                    barThickness: 30,
+                    borderWidth: 1,
+                    borderWidth: 1,
+                    borderColor: "black"
+                  }
+                  arrayOfObjectsDataChart.push(refTemp.current) 
 
+                  dataCCAA = {
+                    label: CCAAsetup[feature.properties.iso_ccaa].name,
+                    data: [feature.properties.total_casos_ccaa],
+                    backgroundColor:[
+                      CCAAsetup[feature.properties.iso_ccaa].color
+                    ], 
+                    barThickness: 30,
+                    borderWidth: 1,
+                    borderWidth: 1,
+                    borderColor: "black"
+                  }
+                                
+                }
+                
+                
+                
+            }
+            arrayOfObjectsDataChart.push(dataCCAA)
+            setDataToChart(arrayOfObjectsDataChart)
+          }
+          
         }
-
       }
     }
     
@@ -234,10 +259,35 @@ function onEachFeature(feature, layer) {
 
           dataSetRegion([e.target.feature.properties.total_casos_provincia, [e.target.feature.properties.name]])
           dataSetCCAA([e.target.feature.properties.total_casos_ccaa, CCAAsetup[e.target.feature.properties.iso_ccaa].name, e.target.options.color, e.target.feature.properties.iso_ccaa, e.target.feature.properties.iso_prov])
-          
           setPrueba([{total: e.target.feature.properties.total_casos_ccaa, name: CCAAsetup[e.target.feature.properties.iso_ccaa].name, color: e.target.options.color, iso_ccaa: e.target.feature.properties.iso_ccaa, iso_prov: e.target.feature.properties.iso_prov}])
 
           setRestrictions(true)
+
+          setDataToChart([
+                        {
+                          label: CCAAsetup[e.target.feature.properties.iso_ccaa].name, 
+                          data: [e.target.feature.properties.total_casos_ccaa],
+                          backgroundColor: [
+                            e.target.options.color
+                          ],
+                          barThickness: 50,
+                          borderWidth: 1,
+                          borderWidth: 1,
+                          borderColor: "black"
+                        },
+                        {
+                          label: e.target.feature.properties.name,
+                          data: [e.target.feature.properties.total_casos_provincia],
+                          backgroundColor: [
+                            '#99d98c',
+                          ],
+                          barThickness: 50,
+                          borderWidth: 1,
+                          borderWidth: 1,
+                          borderColor: "black"
+                        }
+                      ])
+           
 
           layer.bindPopup('<div class="info">'
           +'<h1>'+region+', '+ccaa+'</h1>'
@@ -296,17 +346,16 @@ const theme = createMuiTheme({
     }
   },
   card:{
-    asd:{
+    addTheOtherRegions:{
       backgroundColor: "red"
     }
   }
 });
 
     return (
-
       <Grid container>
           <Grid item xs={12} sm={12} md={12} lg={8} style={{padding:"15px"}}>
-            <a href="/">
+            <a href="/~dawbi2104/">
               <Button
                 variant="contained"
                 color="default"
@@ -410,9 +459,9 @@ const theme = createMuiTheme({
                           </Typography>
                           <FormControl className={classes.formControl}>
                             <Button 
-                            onClick={asd}
+                            onClick={addTheOtherRegions}
                             variant="contained">
-                              Add Region
+                              Add All Regions
                             </Button>
                           </FormControl>
                         </ThemeProvider>
@@ -420,28 +469,9 @@ const theme = createMuiTheme({
                                 <Bar
                                   data={{
                                       labels: data_ccaa[1] ? ["Total Coronavirus Cases"] : '',
-                                        datasets: [
-                                        {
-                                          label: data_ccaa[1] ? data_ccaa[1] : '', 
-                                          data: data_ccaa,
-                                          backgroundColor: [
-                                            data_ccaa[2]
-                                          ],
-                                          barThickness: 90,
-                                        },
-                                        {
-                                          label: data_region[1] ? data_region[1] : '',
-                                          data: data_ccaa[3] !== undefined && CCAAsetup[data_ccaa[3]].provincias.length > 1 ? data_region : '',
-                                          backgroundColor: [
-                                            '#99d98c',
-                                          ],
-                                          barThickness: 80
-                                        },                     
-                                      ],
-
-
-                                      
-                                      }}
+                                        datasets:   
+                                        [...dataIntoTheChart]
+                                  }}
                                />
                             </CardContent>
                         </Card>
