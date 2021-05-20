@@ -19,8 +19,6 @@ import Restrictions from './Restrictions'
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Button from '@material-ui/core/Button';
 
-
-
 const CCAAsetup = {
     "AN":{code: "01", name: "Andalucia", provincias: ['AL', 'CA', 'CO', 'GR', 'H', 'J', 'MA', 'SE'], casos_totales: 0, uci_totales: 0, def_totales: 0, color: "#06d6a0"},
     "AR":{code: "02", name: "Aragón", provincias:['HU', 'TE', 'Z'], casos_totales: 0, uci_totales: 0, def_totales: 0, color: "#f72585"},
@@ -41,7 +39,6 @@ const CCAAsetup = {
     "PV":{code: "17", name: "País Vasco", provincias:['VI','BI','SS'], casos_totales: 0, uci_totales: 0, def_totales: 0, color: "#293241"},
     "AS":{code: "18", name: "Principado de Asturias", provincias:["O"], casos_totales: 0, uci_totales: 0, def_totales: 0, color: "#a4161a"},
     "VC":{code: "19", name: "Comunidad Valenciana", provincias:['A','CS','V'], casos_totales: 0, uci_totales: 0, def_totales: 0, color: "#8d0801"}
-    
 }
 
 
@@ -116,20 +113,6 @@ const handleOpen2 = () => {
   setOpen2(true);
 };
 
-/*
-
-
-// {
-//   label: data_ccaa[1] ? data_ccaa[1] : '', 
-//   data: data_ccaa,
-//   backgroundColor: [
-//     data_ccaa[2]
-//   ],
-//   barThickness: 90,
-// },
-
-*/
-
 const refTemp = useRef()
 
 function random_rgba() {
@@ -170,7 +153,6 @@ const addTheOtherRegions = (event) => {
                     ], 
                     barThickness: 30,
                     borderWidth: 1,
-                    borderWidth: 1,
                     borderColor: "black"
                   }
                   arrayOfObjectsDataChart.push(refTemp.current) 
@@ -183,25 +165,17 @@ const addTheOtherRegions = (event) => {
                     ], 
                     barThickness: 30,
                     borderWidth: 1,
-                    borderWidth: 1,
                     borderColor: "black"
-                  }
-                                
+                  }               
                 }
-                
-                
-                
             }
             arrayOfObjectsDataChart.push(dataCCAA)
             setDataToChart(arrayOfObjectsDataChart)
           }
-          
         }
       }
     }
-    
   } 
-
 };
 
 
@@ -272,7 +246,6 @@ function onEachFeature(feature, layer) {
                           ],
                           barThickness: 50,
                           borderWidth: 1,
-                          borderWidth: 1,
                           borderColor: "black"
                         },
                         {
@@ -282,7 +255,6 @@ function onEachFeature(feature, layer) {
                             '#99d98c',
                           ],
                           barThickness: 50,
-                          borderWidth: 1,
                           borderWidth: 1,
                           borderColor: "black"
                         }
@@ -377,11 +349,9 @@ const theme = createMuiTheme({
                         opacity={0.25}
                         >
                         </GeoJSON>
-                        
                     </MapContainer>
                 </Box>
             </Grid>
-
           </Grid>
 
           <Grid item xs={12} sm={12} md={9} lg={4} style={{margin:"auto"}}>

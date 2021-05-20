@@ -6,6 +6,7 @@ import {
   Card,
 } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
+import { makeStyles } from '@material-ui/core/styles';
 import Status from "./Status";
 import WorldMap from "./WorldMap";
 import "./World.css";
@@ -14,6 +15,11 @@ import { sortData } from '../../utilities/util';
 import Graph from './Graph';
 import ProgressBar from './ProgressBar';
 import CompareCountries from './compareCountries';
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box'
+import Typography from '@material-ui/core/Typography';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import Button from '@material-ui/core/Button';
 
 function World() {
   /*We can use hooks to loop through all the countries*/
@@ -45,11 +51,20 @@ function World() {
     };
     getWorldData();
 
-
-   
-
-
   }, []);
+
+
+
+const useStyles = makeStyles((theme) => ({
+  button: {
+    marginBottom: 15,  
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  }
+}));
+const classes = useStyles();  
 
   useEffect(() => {
     /**
@@ -107,78 +122,90 @@ function World() {
   
 
   return (
-    <div>
 
-    
-    <div className="app">
-      <div className="app__left">
-        <div className="app__header">
-          <h1>World Covid Tracker</h1>
-          {/*Ben convention to name the class of the form*/}
-          <FormControl className="app__dropdown">
-            <Select
-              variant="outlined"
-              onChange={onCountryChange}
-              value={country}
-            >
-              <MenuItem value="world">World</MenuItem>
-              {countries.map((country) => (
-                <MenuItem value={country.value} key={country.value} >{country.name}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </div>
-        <div className="app__stats">
-          <Status
-            onClick={(e) => setCasesType("cases")}
-            active={casesType === "cases"}
-            isRed
-            title="Corona Virus Cases"
-            cases={countryInfo.todayCases}
-            total={countryInfo.cases}
-          ></Status>
-          <Status
-            onClick={(e) => setCasesType("recovered")}
-            active={casesType === "recovered"}
-            title="Recovered"
-            cases={countryInfo.todayRecovered}
-            total={countryInfo.recovered}
-          ></Status>
-          <Status
-            onClick={(e) => setCasesType("deaths")}
-            active={casesType === "deaths"}
-            title="Deaths"
-            isRed
-            cases={countryInfo.todayDeaths}
-            total={countryInfo.deaths}
-          ></Status>
-        </div>
-        <div>
-          <ProgressBar data = {countryInfo} type={casesType} ></ProgressBar>
-        </div>
-        <div className="app__worldMap">
-          <WorldMap
-            countries={mapCountries}
-            casesType={casesType}
-            center={mapCenter}
-            zoom={mapZoom}
-          ></WorldMap>
-        </div>
-      </div>
-      <Card  container>
-        <CardContent>
-          <h3>Live Cases</h3>
-          <h3>WorldWide new cases</h3>
-          <CountryTable countries={tableData} ></CountryTable>
-          <h3>Soy una grafica</h3>
-          <Graph caseType={casesType} ></Graph>
-        </CardContent>
-      </Card>
-    </div>
-    <div>
-      <CompareCountries countries={tableData}></CompareCountries>
-    </div>
-    </div>
+      <Grid container>
+          <Grid item xs={12} sm={12} md={12} lg={8} >
+            <Grid item xs={12} sm={12} md={12} lg={12} style={{ display:"flex", justifyContent:"space-between", alignItems:"center", margin:"15px"}}>
+              <a href="/~dawbi2104/">
+                <Button
+                  variant="contained"
+                  color="default"
+                  className={classes.button}
+                  startIcon={<ArrowBackIcon />}
+                />
+              </a>
+              <FormControl>
+                    <Select style={{backgroundColor:"white"}}
+                      variant="outlined"
+                      onChange={onCountryChange}
+                      value={country}
+                    >
+                      <MenuItem value="world">World</MenuItem>
+                      {countries.map((country) => (
+                        <MenuItem value={country.value} key={country.value} >{country.name}</MenuItem>
+                      ))}
+                    </Select>
+                </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={12} md={12} lg={12} style={{ display:"flex", justifyContent:"space-between", margin:"15px"}}>
+              <Status
+                onClick={(e) => setCasesType("cases")}
+                active={casesType === "cases"}
+                isRed
+                title="Corona Virus Cases"
+                cases={countryInfo.todayCases}
+                total={countryInfo.cases}
+              ></Status>
+              <Status
+                onClick={(e) => setCasesType("recovered")}
+                active={casesType === "recovered"}
+                title="Recovered"
+                cases={countryInfo.todayRecovered}
+                total={countryInfo.recovered}
+              ></Status>
+              <Status
+                onClick={(e) => setCasesType("deaths")}
+                active={casesType === "deaths"}
+                title="Deaths"
+                isRed
+                cases={countryInfo.todayDeaths}
+                total={countryInfo.deaths}
+              ></Status>
+            </Grid>
+
+            <Grid item xs={12} sm={12} md={12} lg={12} style={{margin:"15px"}}>
+                
+              <ProgressBar data = {countryInfo} type={casesType} ></ProgressBar>
+
+            </Grid>
+            
+            <Grid item xs={12} sm={12} md={12} lg={12} style={{margin:"15px"}}>
+              <WorldMap 
+                countries={mapCountries}
+                casesType={casesType}
+                center={mapCenter}
+                zoom={mapZoom}
+              ></WorldMap>
+            </Grid>
+          </Grid>
+
+          <Grid item xs={12} sm={12} md={12} lg={4} style={{padding:"15px"}}>
+            <Grid item xs={12} sm={12} md={12} lg={12}>
+              <CardContent style={{backgroundColor:"white"}}>
+                <h3>Live Cases</h3>
+                <h3>WorldWide new cases</h3>
+                <CountryTable countries={tableData} ></CountryTable>
+                <h3>Soy una grafica</h3>
+                <Graph caseType={casesType} ></Graph>
+              </CardContent>
+            </Grid>
+
+            <Grid item xs={12} sm={12} md={12} lg={12}>
+              <CompareCountries countries={tableData}></CompareCountries>
+            </Grid>
+          </Grid>
+
+      </Grid>
   );
 }
 

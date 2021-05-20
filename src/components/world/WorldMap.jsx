@@ -7,7 +7,11 @@ import moment from 'moment';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import PauseIcon from '@material-ui/icons/Pause';
 import StopIcon from '@material-ui/icons/Stop';
-
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box'
+import Typography from '@material-ui/core/Typography';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import Button from '@material-ui/core/Button';
 
 function WorldMap({ countries, casesType = "deaths", center, zoom }) {
 
@@ -16,10 +20,6 @@ function WorldMap({ countries, casesType = "deaths", center, zoom }) {
   const [isActive, setIsActive] = useState(false);
   const [global, setGlobal] = useState(countries);
   const [countriesData, setCountriesData] = useState(countries);
-
-
-
-
 
   useEffect(() => {
     let intervalId;
@@ -95,7 +95,25 @@ function WorldMap({ countries, casesType = "deaths", center, zoom }) {
 
   return (
     <div className="map">
-      <MapContainer center={center} zoom={zoom} timeDimension={true}>
+        <Grid container style={{padding:"15px", color:"white", display:"flex", flexDirection:"row", textAlign:"center"}}>
+            <Grid item xs={12} sm={12} md={12} lg={9} style={{display:"flex", alignItems:"center", fontSize:"22px"}}>
+              <span><strong>Date: {formattedDate}</strong></span>
+            </Grid>
+            <Grid item xs={12} sm={12} md={12} lg={3} style={{display:"flex", justifyContent:"space-between"}}>
+              <Button
+                variant="contained"
+                color="default"
+                onClick={() => setIsActive(!isActive)}
+              >{isActive ? <PauseIcon></PauseIcon> : <PlayArrowIcon></PlayArrowIcon>}</Button>
+              <Button
+                variant="contained"
+                color="default"
+                onClick={stopTimer}
+              >{<StopIcon></StopIcon>}</Button>
+              
+            </Grid>
+        </Grid>
+      <MapContainer style={{ height:"80vh", outline:"5px solid white"}} center={center} zoom={zoom} timeDimension={true}>
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -104,15 +122,7 @@ function WorldMap({ countries, casesType = "deaths", center, zoom }) {
         {showColor(casesType)}
         {showDataOnMap(countriesData, casesType)}
       </MapContainer>
-      <div className="container">
-        <div className="time">
-          <span className="minute">{formattedDate}</span>
-        </div>
-        <div className="buttons">
-          <button onClick={() => setIsActive(!isActive)} className="start">{isActive ? <PauseIcon></PauseIcon> : <PlayArrowIcon></PlayArrowIcon>}</button>
-          <button onClick={stopTimer} className="reset"><StopIcon></StopIcon></button>
-        </div>
-      </div>
+      
     </div>
   );
 }

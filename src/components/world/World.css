@@ -2,9 +2,6 @@
     margin:0;
   }
   
-  body{
-    background-color: lightblue;
-  }
   .app{
     display: flex;
     justify-content: space-evenly;
