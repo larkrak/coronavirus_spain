@@ -44,76 +44,287 @@ const CCAAsetup = {
 
 const CovidMap = ({ provincias }) => {
 
+/**
+ * 
+ * Use this hook in order to save in an accessible variable the content i will need after clicking on a region.
+ * 
+ * 
+ */
+
 const [data_ccaa, dataSetCCAA] = useState([])
-const [data_region, dataSetRegion] = useState([])
+
+/**
+ * 
+ * casesByDate. useState Hook
+ * Use this to assign all the cases in array format. This will be treated inside the main click event. That click will get the values on that regions for every day 
+ * It has the following format:
+ * "2,3,4,5,6,7" { String splitted by coma. At that event i transform this to array format, so chartjs needs an array to plot data. } 
+ * 
+ * At the momento to set the value with the function setCasesByDate, i add an information i will need to show labels into the graph, the name. 
+ * So in chartjs my data will be casesByDate[0] and the region name casesByDate[1]
+ * 
+ * 
+ */
 
 const [casesByDate, setCasesByDate] = useState([])
+
+
+/**
+ * 
+ * 
+ * dates, useState Hook.
+ * Use this to assign the x label ticks. Just because i wasn't saving this data from the main CSV data. It wasn't necessary since i know the first day and the last one (today)
+ * So i can calculate the rest of the range with a function. -> generateDatesArray()
+ * 
+ * 
+ */
+
 const [dates, setDates] = useState([])
 
-const [typeOfData, setTypeOfData] = useState(0);
-const [daysToShow, setDaysToShow] = useState(0);
+/**
+ * 
+ * This 3 hooks are necessary for the change function on the graph. I mean when you specify another type of data.
+ * First i specify them as 0 so without changing the select, the value loaded is 0 (first item of the select). Then, at the moment of changing it, i set the new type to the new select value.
+ * 
+ * Using this at handleChangeProgressionType() function.
+ * 
+ * In that function, previously (on a click on the map) i created a refference to the important values to plot. 
+ * I mean, without using the change funcionality, the graph will load the request by default, 0 (total cases).
+ * If you try to change the data to show without clicking previously in the map, the handleChangeProgressionType will try to show a new values, but, as you didnt click
+ * in a region of the map, the reference im using inside the funcion is null, so i dont execute the useState hooks that loads data into the map. Instead of that, the data is loaded at the click event.
+ * 
+ * 
+ * Im using a handlechange function for the 3 selects at the application. First graph has a change type of data and a change time to show.
+ * The second graph only has a change type data.
+ * 
+ * 
+ */
 
-const [prueba, setPrueba] = useState([{}]);
+const [typeOfProgressionData, setTypeOfProgressionData] = useState(0);
+const [daysToShow, setDaysToShow] = useState(0);
+const [typeOfTotalData, setTypeOfTotalData] = useState(0);
+
+/**
+ * 
+ * This hook was created in order to control when the data is required. If the user clicks in a region of the map, this hook will load CCAA data and region clicked.
+ * But, if the user clicks in add regions, this hooks load all the regions with a function -> addTheOtherRegions().
+ * This is a difficult function becouse im looping the main data and an object that i created just in case i would need something tricky.
+ * For example, if i didnt created this object (CCAAsetup) i couldnt know what others regions are in the CCAA clicked. I control that in the previously mentioned function.
+ * And add data to the hook dynamcally depending on the number of regions that i found. 
+ * 
+ * 
+ */
+
 const [dataIntoTheChart, setDataToChart] = useState([])
 
-const myRefTypeOfData = useRef(typeOfData);
+
+/**
+ * 
+ * Im using this hooks (useRef) to create a refference bases on the previous useState. I remember, i inicialized them at 0. (first select item)
+ * 
+ * 
+ */
+
+const myRefTypeOfProgressionData = useRef(typeOfProgressionData);
 const myRefDaysToShow = useRef(daysToShow);
+const myRefTypeOfTotalData = useRef(typeOfTotalData);
 
 
-const refPrueba = useRef()
+/**
+ * 
+ * refProgressionData and refTotalData are necessary for the changes function. At the momento the user clicks on a region, the refference is created with this format:
+ * 
+ * ref.current = [[total_cases, regName], [hops_cases, regName],[uci_cases, regName],[def_cases, regName]]
+ * 
+ * That means that i know exactly the values for all the other types of data without clicking on a region
+ * So at the moment of changing the select, i load the type requested from that refference.
+ * 
+ * Same for refTotalData, only difference is that i needed to save data for CCAA and region, so the format is like this:
+ * 
+ * [
+ * {CCAA: properties for differents types of data},
+ * {Provincia: properties for differents types of data}
+ * ]
+ * 
+ * 
+ */
 
-const [open, setOpen] = useState(false);
-const [open2, setOpen2] = useState(false);
+const refProgressionData = useRef()
+const refTotalData = useRef()
+
+/**
+ * 
+ * Hooks that update the state of the open select.
+ * 
+ * 
+ */
+
+const [openProgressionType, setOpenProgressionType] = useState(false);
+const [openDaysToShow, setOpenDaysToShow] = useState(false);
+const [openTotalType, setOpenTotalType] = useState(false);
+
+
+/**
+ * 
+ * With this hook i control that the component of restriccions is loaded but empty at the page load. Becouse user didnt click in any region for the moment.
+ * 
+ */
 
 const [restrictions, setRestrictions] = useState(false)
 
 
-const handleChangeType = (event) => {
-  setTypeOfData(event.target.value);
-  myRefTypeOfData.current = event.target.value;
+const handleChangeProgressionType = (event) => {
+  setTypeOfProgressionData(event.target.value);
+  myRefTypeOfProgressionData.current = event.target.value;
   
-  if(refPrueba.current !== undefined){
+  /**
+   * 
+   * This controls that a region was clicked, or not. So this only is triggered when the change comes after a click.
+   * 
+   */
 
-    let newValues = refPrueba.current[myRefTypeOfData.current][0].slice(-myRefDaysToShow.current)
+  if(refProgressionData.current !== undefined){
 
-    setCasesByDate([newValues, refPrueba.current[myRefTypeOfData.current][1]])
+    let newValues = refProgressionData.current[myRefTypeOfProgressionData.current][0].slice(-myRefDaysToShow.current)
+
+    setCasesByDate([newValues, refProgressionData.current[myRefTypeOfProgressionData.current][1]])
     setDates(generateDatesArray().slice(-myRefDaysToShow.current))
   }
 };
 
-const handleClose = () => {
-  setOpen(false);
+const handleCloseProgressionType = () => {
+  setOpenProgressionType(false);
 };
 
-const handleOpen = () => {
-  setOpen(true);
+const handleOpenProgressionType = () => {
+  setOpenProgressionType(true);
 };
 
 
-const handleChangeDays = (event) => {
+const handleChangeDaysToShow = (event) => {
   setDaysToShow(event.target.value);
   myRefDaysToShow.current = event.target.value
 
-  if(refPrueba.current !== undefined){
+  if(refProgressionData.current !== undefined){
 
+    let newValues = refProgressionData.current[myRefTypeOfProgressionData.current][0].slice(-myRefDaysToShow.current)
 
-    let newValues = refPrueba.current[myRefTypeOfData.current][0].slice(-myRefDaysToShow.current)
-
-    setCasesByDate([newValues, refPrueba.current[myRefTypeOfData.current][1]])
+    setCasesByDate([newValues, refProgressionData.current[myRefTypeOfProgressionData.current][1]])
     setDates(generateDatesArray().slice(-myRefDaysToShow.current))
 
   }
 };
 
-const handleClose2 = () => {
-  setOpen2(false);
+const handleCloseDaysToShow = () => {
+  setOpenDaysToShow(false);
 };
 
-const handleOpen2 = () => {
-  setOpen2(true);
+const handleOpenDaysToShow = () => {
+  setOpenDaysToShow(true);
 };
+
+
+/**
+ * 
+ * This function is what controls the change event on the second graph (CCAA vs region). Is similar to the previous one but here i need to check another things.
+ * 
+ * Depending on the item of the select (total, hops, def, uci), need to load THAT data and only that one to a variable. That variable is what goes to the data object 
+ * Into a useState. The variable binded to that useState is what goes to the final graph.
+ * 
+ */
+
+
+const handleChangeTotalData= (event) => {
+
+  setTypeOfTotalData(event.target.value)
+
+  myRefTypeOfTotalData.current = event.target.value
+
+  if(refTotalData.current !== undefined){
+
+    var dataccaa = "";
+    var dataprov = "";
+
+    if(refNewData.current === undefined){
+
+      if(myRefTypeOfTotalData.current == 0){
+        dataccaa = refTotalData.current[0].CCAA.total
+        dataprov = refTotalData.current[0].Provincia.total
+      }
+      if(myRefTypeOfTotalData.current == 1){
+        dataccaa = refTotalData.current[0].CCAA.hosp
+        dataprov = refTotalData.current[0].Provincia.hosp
+      }
+      if(myRefTypeOfTotalData.current == 2){
+        dataccaa = refTotalData.current[0].CCAA.uci
+        dataprov = refTotalData.current[0].Provincia.uci
+      }
+      if(myRefTypeOfTotalData.current == 3){
+        dataccaa = refTotalData.current[0].CCAA.def
+        dataprov = refTotalData.current[0].Provincia.def
+      }
+
+      setDataToChart([
+        {
+          label: refTotalData.current[0].CCAA.name, 
+          data: [dataccaa],
+          backgroundColor: [
+            refTotalData.current[0].CCAA.color
+          ],
+          borderWidth: 1,
+          borderColor: "black"
+        },
+        {
+          label: refTotalData.current[0].Provincia.name,
+          data: [dataprov],
+          backgroundColor: [
+            '#99d98c',
+          ],
+          borderWidth: 1,
+          borderColor: "black"
+        }
+      ])
+
+    }else{
+      setDataToChart(refNewData.current)
+    }
+  }
+  refNewData.current != undefined ? setActive(true) : setActive(false)
+};
+
+const handleCloseTotalType = () => {
+  setOpenTotalType(false);
+};
+
+const handleOpenTotalType = () => {
+  setOpenTotalType(true);
+};
+
+
+/**
+ * 
+ * This hook is here just becouse is not something general. This is only used in addTheOtherRegions(). Probably, y could have used a simple variable.
+ * 
+ * This function only has sense after user clicked on a region, so first thing i get is exactly the CCAA clicked. 
+ * The hook dataSetCCAA gives me this info, i added that on the click event.
+ * Need to set a couple of variables (arrays) to be pushing there the rest of the regions.
+ * To do that im looping the object that i created just in case (CCAAsetup)
+ * 
+ * Loop it till i am in the key that is the ccaa i clicked. Then, i loop his value (that is another object) till i get the key named "provincias"
+ * That key contains an array with all the regions for that CCAA in array format. I need to check that that array is higher than 1, to control ccaa with only 1 region.
+ * Such as Madrid or Murcia for example.
+ * 
+ * Then, when im at that leve, i loop that array. So, for each one of them (regions) i create an object with the format required for the chartjs component.
+ * That object that i create at the loop, i push it to the array created previously. At the end of the loop i add the CCAA too. Then i just update the state of the
+ * useState hook setDataToChart()
+ * 
+ * 
+ */
 
 const refTemp = useRef()
+const refNewData = useRef()
+
+const [isActive, setActive] = useState(false)
 
 function random_rgba() {
   let arr = ["#ffadad", "#ffd6a5", "#fdffb6", "#caffbf", "#9bf6ff", "#a0c4ff", "#bdb2ff", "#ffc6ff"]
@@ -123,14 +334,10 @@ function random_rgba() {
 
 const addTheOtherRegions = (event) => {
 
-
-  let ccaa = data_ccaa[1]
   let isoClicked = data_ccaa[3] 
 
   let arrayOfObjectsDataChart = []
   let dataCCAA = []
-
-  console.log(provincias)
 
   for (var [key, value] of Object.entries(CCAAsetup)) {
 
@@ -145,31 +352,50 @@ const addTheOtherRegions = (event) => {
 
                 if(value[key2].indexOf(feature.properties.iso_prov) != -1){
 
+                  //console.log(value[key2].length)
+
+                  var data = ""
+                  var dataccaa = ""
+                  if(myRefTypeOfTotalData.current == 0){
+                      data = feature.properties.total_casos_provincia
+                      dataccaa = feature.properties.total_casos_ccaa
+                  }
+                  if(myRefTypeOfTotalData.current == 1){
+                      data = feature.properties.total_hosp_provincia
+                      dataccaa = feature.properties.total_hosp_ccaa
+                  }
+                  if(myRefTypeOfTotalData.current == 2){
+                      data = feature.properties.total_uci_provincia
+                      dataccaa = feature.properties.total_uci_ccaa
+                  }
+                  if(myRefTypeOfTotalData.current == 3){
+                      data = feature.properties.total_def_provincia
+                      dataccaa = feature.properties.total_def_ccaa
+                  }
                   refTemp.current = {
                     label: feature.properties.name,
-                    data: [feature.properties.total_casos_provincia],
+                    data: [data],
                     backgroundColor:[
                       random_rgba()
                     ], 
-                    barThickness: 30,
                     borderWidth: 1,
-                    borderColor: "black"
+                    borderColor: "black",
                   }
                   arrayOfObjectsDataChart.push(refTemp.current) 
 
                   dataCCAA = {
                     label: CCAAsetup[feature.properties.iso_ccaa].name,
-                    data: [feature.properties.total_casos_ccaa],
+                    data: [dataccaa],
                     backgroundColor:[
                       CCAAsetup[feature.properties.iso_ccaa].color
                     ], 
-                    barThickness: 30,
                     borderWidth: 1,
-                    borderColor: "black"
+                    borderColor: "black",
                   }               
                 }
             }
             arrayOfObjectsDataChart.push(dataCCAA)
+            refNewData.current = arrayOfObjectsDataChart
             setDataToChart(arrayOfObjectsDataChart)
           }
         }
@@ -177,6 +403,12 @@ const addTheOtherRegions = (event) => {
     }
   } 
 };
+
+/**
+ * This is a kind of custom hook created by material ui. Its some kind of standard they use to apply styles.
+ * 
+ * 
+ */
 
 
 const useStyles = makeStyles((theme) => ({
@@ -188,6 +420,13 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 120,
   }
 }));
+
+
+/**
+ * Function mentioned before. Generates an array of dates since 2020-01-01 to today.
+ *  
+ * 
+ */
 
 
 function generateDatesArray(){
@@ -214,6 +453,19 @@ function generateDatesArray(){
 }
 
 
+/**
+ * 
+ * @param {*} feature 
+ * @param {*} layer 
+ * 
+ * This function is the main funcionality in the component. This is a function of the geoJson component. Means that, for every one of the features inside the geoJson 
+ * (we can understand a feature as a complex array of coordinates, wich delimites zones in the map) it will do something to that feature (region).
+ * 
+ * In mi caso, i created a click event that manage all the aplication. Depending on which region is clicked, the useStates load with a specific data.
+ * 
+ * 
+ */
+
 
 
 function onEachFeature(feature, layer) {
@@ -226,16 +478,15 @@ function onEachFeature(feature, layer) {
 
         layer.options.color = CCAAsetup[feature.properties.iso_ccaa].color
 
-
         layer.on('click', function (e) {
 
           let ccaa = CCAAsetup[feature.properties.iso_ccaa].name
 
-          dataSetRegion([e.target.feature.properties.total_casos_provincia, [e.target.feature.properties.name]])
           dataSetCCAA([e.target.feature.properties.total_casos_ccaa, CCAAsetup[e.target.feature.properties.iso_ccaa].name, e.target.options.color, e.target.feature.properties.iso_ccaa, e.target.feature.properties.iso_prov])
-          setPrueba([{total: e.target.feature.properties.total_casos_ccaa, name: CCAAsetup[e.target.feature.properties.iso_ccaa].name, color: e.target.options.color, iso_ccaa: e.target.feature.properties.iso_ccaa, iso_prov: e.target.feature.properties.iso_prov}])
 
           setRestrictions(true)
+          setActive(false)
+          refNewData.current = undefined
 
           setDataToChart([
                         {
@@ -244,7 +495,6 @@ function onEachFeature(feature, layer) {
                           backgroundColor: [
                             e.target.options.color
                           ],
-                          barThickness: 50,
                           borderWidth: 1,
                           borderColor: "black"
                         },
@@ -254,11 +504,15 @@ function onEachFeature(feature, layer) {
                           backgroundColor: [
                             '#99d98c',
                           ],
-                          barThickness: 50,
                           borderWidth: 1,
                           borderColor: "black"
                         }
                       ])
+
+          refTotalData.current = [{
+            CCAA: {name: CCAAsetup[e.target.feature.properties.iso_ccaa].name, total: e.target.feature.properties.total_casos_ccaa,  hosp: e.target.feature.properties.total_hosp_ccaa, uci: e.target.feature.properties.total_uci_ccaa, def: e.target.feature.properties.total_def_ccaa, color: e.target.options.color },
+            Provincia: {name: e.target.feature.properties.name, total:e.target.feature.properties.total_casos_provincia,  hosp: e.target.feature.properties.total_hosp_provincia, uci: e.target.feature.properties.total_uci_provincia, def: e.target.feature.properties.total_def_provincia }
+          }]
            
 
           layer.bindPopup('<div class="info">'
@@ -288,18 +542,18 @@ function onEachFeature(feature, layer) {
 
           let regName = e.target.feature.properties.name
 
-          refPrueba.current = [[casesByDate, regName], [hospByDate, regName], [uciByDate, regName], [defByDate, regName]]
+          refProgressionData.current = [[casesByDate, regName], [hospByDate, regName], [uciByDate, regName], [defByDate, regName]]
 
-          if(myRefTypeOfData.current === 0){
+          if(myRefTypeOfProgressionData.current === 0){
             setCasesByDate([casesByDate,regName])
           }
-          if(myRefTypeOfData.current === 1){
+          if(myRefTypeOfProgressionData.current === 1){
             setCasesByDate([hospByDate,regName])
           }
-          if(myRefTypeOfData.current === 2){
+          if(myRefTypeOfProgressionData.current === 2){
             setCasesByDate([uciByDate,regName])
           }
-          if(myRefTypeOfData.current === 3){
+          if(myRefTypeOfProgressionData.current === 3){
             setCasesByDate([defByDate,regName])
           }
           setDates(dates)
@@ -315,11 +569,6 @@ const theme = createMuiTheme({
       fontWeight: 200,
       letterSpacing: 2,
       fontSize:28
-    }
-  },
-  card:{
-    addTheOtherRegions:{
-      backgroundColor: "red"
     }
   }
 });
@@ -337,7 +586,7 @@ const theme = createMuiTheme({
             </a>
             <Grid item xs={12} sm={12} md={12} lg={12}>
                 <Box>
-                    <MapContainer style={{ height:"80vh", outline:"5px solid white"}} zoom="6" center={[40.53667, -3.74922]} scrollWheelZoom={true} zoomControl={true} >
+                    <MapContainer style={{ height:"100vh", outline:"5px solid white"}} zoom="6" center={[40.53667, -3.74922]} scrollWheelZoom={true} zoomControl={true} >
                         <TileLayer
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -366,11 +615,11 @@ const theme = createMuiTheme({
                         <Select
                           labelId="demo-controlled-open-select-label"
                           id="demo-controlled-open-select"
-                          open={open}
-                          onClose={handleClose}
-                          onOpen={handleOpen}
-                          value={typeOfData}
-                          onChange={handleChangeType}
+                          open={openProgressionType}
+                          onClose={handleCloseProgressionType}
+                          onOpen={handleOpenProgressionType}
+                          value={typeOfProgressionData}
+                          onChange={handleChangeProgressionType}
                         >
                           <MenuItem value={0}>Show Total Cases</MenuItem>
                           <MenuItem value={1}>Show Total Hospitalizations</MenuItem>
@@ -384,11 +633,11 @@ const theme = createMuiTheme({
                         <Select
                           labelId="demo-controlled-open-select-label"
                           id="demo-controlled-open-select"
-                          open={open2}
-                          onClose={handleClose2}
-                          onOpen={handleOpen2}
+                          open={openDaysToShow}
+                          onClose={handleCloseDaysToShow}
+                          onOpen={handleOpenDaysToShow}
                           value={daysToShow}
-                          onChange={handleChangeDays}
+                          onChange={handleChangeDaysToShow}
                         >
                           <MenuItem value={0}>All</MenuItem>
                           <MenuItem value={30}>Last 30</MenuItem>
@@ -427,13 +676,33 @@ const theme = createMuiTheme({
                           <Typography variant="h3"  color="textSecondary" gutterBottom>
                             Total cases compared
                           </Typography>
-                          <FormControl className={classes.formControl}>
-                            <Button 
-                            onClick={addTheOtherRegions}
-                            variant="contained">
-                              Add All Regions
-                            </Button>
-                          </FormControl>
+                          <Grid  item xs={12} sm={12} md={12} lg={12} style={{display:"flex", flexDirection:"row", justifyContent:"center", alignItems:"center"}}>
+                            <FormControl className={classes.formControl}>
+                            <InputLabel id="demo-controlled-open-select-label">Select data</InputLabel>
+                              <Select
+                                labelId="demo-controlled-open-select-label"
+                                id="demo-controlled-open-select"
+                                open={openTotalType}
+                                onClose={handleCloseTotalType}
+                                onOpen={handleOpenTotalType}
+                                value={typeOfTotalData}
+                                onChange={handleChangeTotalData}
+                              >
+                                <MenuItem value={0}>Show Total Cases</MenuItem>
+                                <MenuItem value={1}>Show Total Hospitalizations</MenuItem>
+                                <MenuItem value={2}>Show Total UCI Cases</MenuItem>
+                                <MenuItem value={3}>Show Total Defunctions</MenuItem>
+
+                              </Select>
+                            </FormControl>
+                            <FormControl className={classes.formControl}>
+                              <Button 
+                              onClick={addTheOtherRegions}
+                              variant="contained">
+                                {isActive? "Refresh" : "Add all regions"}
+                              </Button>
+                            </FormControl>
+                          </Grid>
                         </ThemeProvider>
                             <CardContent>
                                 <Bar
@@ -441,6 +710,14 @@ const theme = createMuiTheme({
                                       labels: data_ccaa[1] ? ["Total Coronavirus Cases"] : '',
                                         datasets:   
                                         [...dataIntoTheChart]
+                                  }}
+                                  options={{
+                                    scales:{
+                                      xAxes: [{
+                                        barThickness: 6,  // number (pixels) or 'flex'
+                                        maxBarThickness: 8 // number (pixels)
+                                      }]
+                                    }
                                   }}
                                />
                             </CardContent>
