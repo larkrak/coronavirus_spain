@@ -63,7 +63,7 @@ function CompareCountries(data) {
                         {data?.data.length > 0 && (
                             <FormControl className={classes.formControl}>
                                 <Grid container >
-                                    <Grid item xs={12} sm={12} md={12} lg={12} style={{display:"flex", justifyContent:"center"}}>
+                                    <Grid item xs={12} sm={12} md={12} lg={8} style={{display:"flex", justifyContent:"center"}}>
                                         <Select style={{margin:"15px"}}
                                             variant="outlined"
                                             onChange={onCountryChange}
@@ -85,6 +85,9 @@ function CompareCountries(data) {
                                                 <MenuItem value={country.value} key={country.name} >{country.name}</MenuItem>
                                             ))}
                                         </Select>
+                                    </Grid>
+                                    <Grid item xs={12} sm={12} md={12} lg={4} >
+
                                     </Grid>
                                 </Grid>
                             </FormControl>)}
