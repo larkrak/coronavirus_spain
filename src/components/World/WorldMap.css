@@ -1,16 +1,11 @@
 .map {
     height: 100%;
     background-color: white;
-    padding: 1rem;
-    border-radius: 20px;
-    margin-top: 16px;
-    box-shadow: 0 0 8px -4px rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
   }
   
   .map .leaflet-container {
-    margin-top: 1rem;
     height: 90%;
-    border-radius: 12px;
   }
   
   .info-flag img {
@@ -47,8 +42,3 @@
     width:1000px;
     font-size:20px;
 }
-
-.minute{
-  margin-left: 2rem;
-}
-  

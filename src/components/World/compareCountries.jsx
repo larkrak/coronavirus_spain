@@ -8,6 +8,8 @@ import {
 } from "@material-ui/core";
 import Grid from '@material-ui/core/Grid';
 import Graph from './Graph';
+import { makeStyles } from '@material-ui/core/styles';
+
 
 
 /**
@@ -38,6 +40,20 @@ function CompareCountries(data) {
         setCountry2(countryCode);
       };
 
+      const useStyles = makeStyles((theme) => ({
+        button: {
+          marginBottom: 15,  
+        },
+        formControl: {
+          margin: theme.spacing(1),
+          width:"100%"
+        }
+      }));
+
+
+      const classes = useStyles();
+
+
 
 
     return (
@@ -45,34 +61,31 @@ function CompareCountries(data) {
             <Card container>
                 <CardContent>
                         {data?.data.length > 0 && (
-                            <FormControl className="app__dropdown">
-                                <Grid container>
-                                <Grid item xs={6}>
-                                    <Select
-                                        variant="outlined"
-                                          onChange={onCountryChange}
-                                        value={country}
-                                    >
-                                        <MenuItem value=""></MenuItem>
-                                        {data.data.map((country) => (
-                                            <MenuItem value={country.value} key={country.name} >{country.name}</MenuItem>
-                                        ))}
-                                    </Select>
+                            <FormControl className={classes.formControl}>
+                                <Grid container >
+                                    <Grid item xs={12} sm={12} md={12} lg={12} style={{display:"flex", justifyContent:"center"}}>
+                                        <Select style={{margin:"15px"}}
+                                            variant="outlined"
+                                            onChange={onCountryChange}
+                                            value={country}
+                                        >
+                                            <MenuItem value=""></MenuItem>
+                                            {data.data.map((country) => (
+                                                <MenuItem value={country.value} key={country.name} >{country.name}</MenuItem>
+                                            ))}
+                                        </Select>
 
-                                </Grid>
-
-                                <Grid item xs={6}>
-                                    <Select
-                                        variant="outlined"
-                                         onChange={onCountryChange2}
-                                        value={country2}
-                                    >
-                                        <MenuItem value=""></MenuItem>
-                                        {data.data.map((country) => (
-                                            <MenuItem value={country.value} key={country.name} >{country.name}</MenuItem>
-                                        ))}
-                                    </Select>
-                                </Grid>
+                                        <Select style={{margin:"15px"}}
+                                            variant="outlined"
+                                            onChange={onCountryChange2}
+                                            value={country2}
+                                        >
+                                            <MenuItem value=""></MenuItem>
+                                            {data.data.map((country) => (
+                                                <MenuItem value={country.value} key={country.name} >{country.name}</MenuItem>
+                                            ))}
+                                        </Select>
+                                    </Grid>
                                 </Grid>
                             </FormControl>)}
                     

@@ -13,6 +13,8 @@ import {
   Card,
 } from "@material-ui/core";
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+
 
 
 function WorldMap({ countries, casesType , center, zoom }) {
@@ -104,43 +106,85 @@ function WorldMap({ countries, casesType , center, zoom }) {
   }
 
   return (
-    <div className="map">
-      <Grid container >
-        <Grid item xs={8}>
-        <div>
-            {/* <div className="time">
-              <span className="minute">{formattedDate}</span>
-            </div> */}
-            <div className="buttons">
-              <button onClick={() => setIsActive(!isActive)} className="start">{isActive ? <PauseIcon></PauseIcon> : <PlayArrowIcon></PlayArrowIcon>}</button>
-              <button onClick={stopTimer} className="reset"><StopIcon></StopIcon></button>
-              <span className="minute">{stopped? moment().format("MM/DD/YY") :formattedDate  }</span>
-            </div>
-          </div>
+    // <div className="map">
+    //   <Grid container >
+    //     <Grid item xs={8}>
+    //     <div>
+    //         {/* <div className="time">
+    //           <span className="minute">{formattedDate}</span>
+    //         </div> */}
+    //         <div className="buttons">
+    //           <button onClick={() => setIsActive(!isActive)} className="start">{isActive ? <PauseIcon></PauseIcon> : <PlayArrowIcon></PlayArrowIcon>}</button>
+    //           <button onClick={stopTimer} className="reset"><StopIcon></StopIcon></button>
+    //           <span className="minute">{stopped? moment().format("MM/DD/YY") :formattedDate  }</span>
+    //         </div>
+    //       </div>
 
-          <MapContainer  center={center} zoom={zoom} timeDimension={true}>
+    //       <MapContainer  center={center} zoom={zoom} timeDimension={true}>
+    //         <TileLayer
+    //           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+    //           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    //         />
+            
+    //         {/* {showColor(color)} */}
+    //         {showDataOnMap(countriesData, color)}
+    //       </MapContainer>
+         
+         
+    //     </Grid>
+    //     <Grid item xs={4}>
+    //       {/* <Card container>
+    //         <CardContent> */}
+    //            <CountryTable
+    //            countries={countriesData} type={casesType} stopped = {stopped}>
+    //          </CountryTable>
+    //         {/* </CardContent>
+    //       </Card> */}
+    //     </Grid>
+    //   </Grid>
+    // </div>
+    <div className="map">
+    <Grid container style={{color:"white", display:"flex", flexDirection:"row", textAlign:"center"}}>
+        <Grid item xs={12} sm={12} md={12} lg={12}  style={{padding:"15px", display:"flex", alignItems:"center", fontSize:"22px", color:"black"}}>
+          <Grid item xs={12} sm={12} md={12} lg={10}>
+            <span><strong>Date: {formattedDate}</strong></span>
+          </Grid>
+          <Grid item xs={12} sm={12} md={12} lg={2} style={{display:"flex", justifyContent:"space-between"}}>
+            <Button
+              variant="contained"
+              color="default"
+              onClick={() => setIsActive(!isActive)}
+            >{isActive ? <PauseIcon></PauseIcon> : <PlayArrowIcon></PlayArrowIcon>}</Button>
+            <Button
+              variant="contained"
+              color="default"
+              onClick={stopTimer}
+            >{<StopIcon></StopIcon>}</Button>
+          </Grid>
+        </Grid>
+
+        <Grid item xs={12} sm={12} md={12} lg={8} style={{padding:"15px"}}>
+
+          <MapContainer style={{ height:"80vh"}} center={center} zoom={zoom} timeDimension={true}>
             <TileLayer
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             />
-            
-            {/* {showColor(color)} */}
-            {showDataOnMap(countriesData, color)}
+            {showColor(casesType)}
+            {showDataOnMap(countriesData, casesType)}
           </MapContainer>
-         
-         
+
         </Grid>
-        <Grid item xs={4}>
-          {/* <Card container>
-            <CardContent> */}
-               <CountryTable
-               countries={countriesData} type={casesType} stopped = {stopped}>
-             </CountryTable>
-            {/* </CardContent>
-          </Card> */}
-        </Grid>
-      </Grid>
-    </div>
+
+        <Grid item xs={12} sm={12} md={12} lg={4} style={{color:"black", padding:"15px"}}>
+              <CountryTable
+                countries={countriesData} type={casesType} stopped = {stopped}>
+              </CountryTable>
+         </Grid>
+
+    </Grid>
+  
+</div>
   );
 }
 
