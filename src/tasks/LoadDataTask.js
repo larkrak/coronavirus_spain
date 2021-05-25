@@ -22,7 +22,41 @@ class LoadDataTask {
         
     }
 
+    getRandoms = (arrTexts) => {
+        let output = []
+        arrTexts.forEach(element => {
+            let random = Math.floor(Math.random() * (element.length - 0)) + 0
+            output.push(element[random])
+        });
+
+        return output;
+    }
+
     #processCovidData = (covidData) => {
+
+
+        let restrictionsArray = [ {"A" : ['Between 01:00 a.m. and 6:00 a.m. from May 24.',
+                                        'No restrictions on night mobility.',
+                                        'There are no restrictions on night mobility. From May 9, non-essential activity is limited from 00:00 to 06:00.'] },
+                                {"B" : ['No limitations.', 
+                                        'Physical activity may be practiced in outdoor facilities, individually or in groups, up to a maximum of 25 people and without physical contact, respecting the distance of 2 meters, being the use of a mask mandatory, with the sole exception of circumstances that require a high additional intake of oxygen.',
+                                        'Gyms at 50%. Groups of maximum 10 people in closed facilities and 20 outdoors for individual physical activity. Mandatory mask and keep distance.'] },
+                                {"C" : ['The capacity inside will be 50% and a maximum of 6 people. On the terrace, the capacity is 85% and a maximum of 10 tables. Bar consumption prohibited.The closing time is set at 1:00.', 
+                                        'Capacity of 50% indoors and 100% on the terrace with tables for a maximum of four people, whether they are living together or not. Closing hours at 22:00. Bar consumption prohibited.',
+                                        'No limitations on the restoration activity'] },
+                                {"D" : ['It is recommended to avoid gatherings of more than four people indoors and outdoors.', 
+                                        'It is recommended that they be of eight people and three living units as a maximum',
+                                        'No limitations'] }
+                                ]
+
+        let arrTexts = []
+
+        restrictionsArray.forEach(element => {
+            for (const property in element) {
+                arrTexts.push(element[property])
+            }
+        });
+
 
         for (let index = 0; index < this.mapRegions.length; index++) {
             const mapRegion = this.mapRegions[index];
@@ -55,6 +89,7 @@ class LoadDataTask {
                 mapRegion.properties.progression_num_hosp = progresion_num_hosp
                 mapRegion.properties.progression_num_uci = progresion_num_uci
                 mapRegion.properties.progression_num_def = progresion_num_def
+                mapRegion.properties.restrictions = this.getRandoms(arrTexts)
             }
 
         }

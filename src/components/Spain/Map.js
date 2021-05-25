@@ -71,7 +71,6 @@ const [casesByDate, setCasesByDate] = useState([])
 
 /**
  * 
- * 
  * dates, useState Hook.
  * Use this to assign the x label ticks. Just because i wasn't saving this data from the main CSV data. It wasn't necessary since i know the first day and the last one (today)
  * So i can calculate the rest of the range with a function. -> generateDatesArray()
@@ -168,21 +167,39 @@ const [openTotalType, setOpenTotalType] = useState(false);
  * 
  * With this hook i control that the component of restriccions is loaded but empty at the page load. Becouse user didnt click in any region for the moment.
  * 
+ * 
  */
 
-const [restrictions, setRestrictions] = useState(false)
+const [restrictions, setRestrictions] = useState([])
 
+const [restrictionOn, setRestrictionOn] = useState(false)
+
+/**
+ * 
+ * @param {*} event 
+ * 
+ * This controls that a region was clicked, or not. So this only is triggered when the change comes after a click.
+ * 
+ * I mean that -> myRefTypeOfProgressionData <- is saving all the data from the different types of graph. So, in this function
+ * As i specified values for the options of the select as 0,1,2,3, i can access thought that number to the array that contains the data, always that 
+ * i introduced that data in the same order. This is why i can access to the data this way: 
+ * 
+ * -> refProgressionData.current[myRefTypeOfProgressionData.current] <-
+ * 
+ * 
+ * refProgressionData contains an array of data of total cases, hosps, uci and def.
+ * So refProgressionData[X] will be some of them, but i wrote the code to access them from the same position that the option value says.
+ * 
+ * Actually refProgressionData is in this format: -> [[data1, regionName], [data2, regionName], [data3, regionName], [data4, regionName]] <-
+ * So i need to specify double indexing. first one will select -> [data1,regionName] <- but i need to slice the data so i need to -> [0] <-
+ * 
+ * 
+ */
 
 const handleChangeProgressionType = (event) => {
   setTypeOfProgressionData(event.target.value);
   myRefTypeOfProgressionData.current = event.target.value;
   
-  /**
-   * 
-   * This controls that a region was clicked, or not. So this only is triggered when the change comes after a click.
-   * 
-   */
-
   if(refProgressionData.current !== undefined){
 
     let newValues = refProgressionData.current[myRefTypeOfProgressionData.current][0].slice(-myRefDaysToShow.current)
@@ -200,6 +217,14 @@ const handleOpenProgressionType = () => {
   setOpenProgressionType(true);
 };
 
+
+/**
+ * 
+ * @param {*} event 
+ * 
+ * This function controls the same concept that the previous function, only for saving the refference of what days the user specified.
+ * 
+ */
 
 const handleChangeDaysToShow = (event) => {
   setDaysToShow(event.target.value);
@@ -234,7 +259,7 @@ const handleOpenDaysToShow = () => {
  */
 
 
-const handleChangeTotalData= (event) => {
+const handleChangeTotalData = (event) => {
 
   setTypeOfTotalData(event.target.value)
 
@@ -247,19 +272,19 @@ const handleChangeTotalData= (event) => {
 
     if(refNewData.current === undefined){
 
-      if(myRefTypeOfTotalData.current == 0){
+      if(myRefTypeOfTotalData.current === 0){
         dataccaa = refTotalData.current[0].CCAA.total
         dataprov = refTotalData.current[0].Provincia.total
       }
-      if(myRefTypeOfTotalData.current == 1){
+      if(myRefTypeOfTotalData.current === 1){
         dataccaa = refTotalData.current[0].CCAA.hosp
         dataprov = refTotalData.current[0].Provincia.hosp
       }
-      if(myRefTypeOfTotalData.current == 2){
+      if(myRefTypeOfTotalData.current === 2){
         dataccaa = refTotalData.current[0].CCAA.uci
         dataprov = refTotalData.current[0].Provincia.uci
       }
-      if(myRefTypeOfTotalData.current == 3){
+      if(myRefTypeOfTotalData.current === 3){
         dataccaa = refTotalData.current[0].CCAA.def
         dataprov = refTotalData.current[0].Provincia.def
       }
@@ -289,7 +314,7 @@ const handleChangeTotalData= (event) => {
       setDataToChart(refNewData.current)
     }
   }
-  refNewData.current != undefined ? setActive(true) : setActive(false)
+  refNewData.current !== undefined ? setActive(true) : setActive(false)
 };
 
 const handleCloseTotalType = () => {
@@ -303,20 +328,38 @@ const handleOpenTotalType = () => {
 
 /**
  * 
- * This hook is here just becouse is not something general. This is only used in addTheOtherRegions(). Probably, y could have used a simple variable.
+ *  _________
+ * |_refTemp_|
+ *  
+ * This hook is here just because is not something general. This is only used in addTheOtherRegions(). Probably, y could have used a simple variable.
  * 
  * This function only has sense after user clicked on a region, so first thing i get is exactly the CCAA clicked. 
  * The hook dataSetCCAA gives me this info, i added that on the click event.
  * Need to set a couple of variables (arrays) to be pushing there the rest of the regions.
  * To do that im looping the object that i created just in case (CCAAsetup)
  * 
- * Loop it till i am in the key that is the ccaa i clicked. Then, i loop his value (that is another object) till i get the key named "provincias"
- * That key contains an array with all the regions for that CCAA in array format. I need to check that that array is higher than 1, to control ccaa with only 1 region.
+ * Loop it till i am in the key that is clicked ccaa. Then, i loop his value (that is another object) till i get the key named "provincias"
+ * That key contains an array with all the regions for that CCAA in array format. I need to check that the array is higher than 1, to control ccaa with only 1 region.
  * Such as Madrid or Murcia for example.
  * 
- * Then, when im at that leve, i loop that array. So, for each one of them (regions) i create an object with the format required for the chartjs component.
+ * Then, when im at that level, i loop that array. So, for each one of them (regions) i create an object with the format required for the chartjs component.
  * That object that i create at the loop, i push it to the array created previously. At the end of the loop i add the CCAA too. Then i just update the state of the
- * useState hook setDataToChart()
+ * useState hook setDataToChart(), that is the variable that loads data inside the chartjs component.
+ * 
+ *  ____________
+ * |_refNewData_|
+ * 
+ * As the data that im loading, depends directly of the selected option. (type of data: Total cases, hospitalizations...) first i need to check that.
+ * Depending on that values, the data i get from the feature of the geojson is another.
+ * Then, i create the object that will go to the hook setDataToChart() with that data.
+ * 
+ * This hook is used too at the handleChangeTotalData function, that handles the data that im showing at the graph. Its used the same way,
+ * depending on the type selected, i need one or another data from the geojson.
+ * 
+ *  __________
+ * |_isActive_|
+ * 
+ * This hook changes the text of the button that adds regions to "refresh" if u specified another type of data.
  * 
  * 
  */
@@ -350,25 +393,23 @@ const addTheOtherRegions = (event) => {
 
             for(var [num, feature] of Object.entries(provincias)){
 
-                if(value[key2].indexOf(feature.properties.iso_prov) != -1){
-
-                  //console.log(value[key2].length)
+                if(value[key2].indexOf(feature.properties.iso_prov) !== -1){
 
                   var data = ""
                   var dataccaa = ""
-                  if(myRefTypeOfTotalData.current == 0){
+                  if(myRefTypeOfTotalData.current === 0){
                       data = feature.properties.total_casos_provincia
                       dataccaa = feature.properties.total_casos_ccaa
                   }
-                  if(myRefTypeOfTotalData.current == 1){
+                  if(myRefTypeOfTotalData.current === 1){
                       data = feature.properties.total_hosp_provincia
                       dataccaa = feature.properties.total_hosp_ccaa
                   }
-                  if(myRefTypeOfTotalData.current == 2){
+                  if(myRefTypeOfTotalData.current === 2){
                       data = feature.properties.total_uci_provincia
                       dataccaa = feature.properties.total_uci_ccaa
                   }
-                  if(myRefTypeOfTotalData.current == 3){
+                  if(myRefTypeOfTotalData.current === 3){
                       data = feature.properties.total_def_provincia
                       dataccaa = feature.properties.total_def_ccaa
                   }
@@ -405,6 +446,7 @@ const addTheOtherRegions = (event) => {
 };
 
 /**
+ * 
  * This is a kind of custom hook created by material ui. Its some kind of standard they use to apply styles.
  * 
  * 
@@ -423,8 +465,9 @@ const useStyles = makeStyles((theme) => ({
 
 
 /**
+ * 
  * Function mentioned before. Generates an array of dates since 2020-01-01 to today.
- *  
+ * 
  * 
  */
 
@@ -458,10 +501,10 @@ function generateDatesArray(){
  * @param {*} feature 
  * @param {*} layer 
  * 
- * This function is the main funcionality in the component. This is a function of the geoJson component. Means that, for every one of the features inside the geoJson 
- * (we can understand a feature as a complex array of coordinates, wich delimites zones in the map) it will do something to that feature (region).
+ * This function is the main functionality in the component. This is a function of the geoJson component. Means that, for every one of the features inside the geoJson 
+ * (we can understand a feature as a complex array of coordinates, which delimits zones in the map) it will do something to that feature (region).
  * 
- * In mi caso, i created a click event that manage all the aplication. Depending on which region is clicked, the useStates load with a specific data.
+ * In mi case, i created a click event that manage all the application. Depending on which region is clicked, the useStates load with a specific data.
  * 
  * 
  */
@@ -484,8 +527,9 @@ function onEachFeature(feature, layer) {
 
           dataSetCCAA([e.target.feature.properties.total_casos_ccaa, CCAAsetup[e.target.feature.properties.iso_ccaa].name, e.target.options.color, e.target.feature.properties.iso_ccaa, e.target.feature.properties.iso_prov])
 
-          setRestrictions(true)
+          setRestrictions(e.target.feature.properties.restrictions)
           setActive(false)
+          setRestrictionOn(true)
           refNewData.current = undefined
 
           setDataToChart([
@@ -513,6 +557,8 @@ function onEachFeature(feature, layer) {
             CCAA: {name: CCAAsetup[e.target.feature.properties.iso_ccaa].name, total: e.target.feature.properties.total_casos_ccaa,  hosp: e.target.feature.properties.total_hosp_ccaa, uci: e.target.feature.properties.total_uci_ccaa, def: e.target.feature.properties.total_def_ccaa, color: e.target.options.color },
             Provincia: {name: e.target.feature.properties.name, total:e.target.feature.properties.total_casos_provincia,  hosp: e.target.feature.properties.total_hosp_provincia, uci: e.target.feature.properties.total_uci_provincia, def: e.target.feature.properties.total_def_provincia }
           }]
+
+          console.log(feature)
            
 
           layer.bindPopup('<div class="info">'
@@ -572,6 +618,47 @@ const theme = createMuiTheme({
     }
   }
 });
+
+/**
+ * 
+ * 
+ * This is a comment to explain my layout. Material ui has a component called grid. Grid a responsive and flexible layout system.  
+ * Its based on the flexible box from CSS, which allows to alter the containers / items dimensions and fill the available space.
+ * Material ui grid has 2 different components. A Container grid and Item grid. Its based on 12 columns, so container are 12 columns always and then 
+ * You specify the items columns. My grid has the following format.
+ * 
+ * 
+ *  <Grid container> --> Its full screen width
+ *    <Grid item lg={8}> --> 8 of the 12 available columns
+ *      
+ *      <Grid item lg={12}> --> 12 to specify the 100% from the parent (that was 8)
+ *          Here goes the map
+ *      </Grid>
+ *  
+ *    </Grid> // End of 8 columns item // 
+ * 
+ *    <Grid item lg={4}> --> 4 of the 12 available columns, which are the rest of the previous 8 columns. So this one + the 8 columns are 100% (same as parent)
+ * 
+ *      <Grid item lg={12}> --> 12 to specify the 100% from the parent (that was 4)
+ *          Here is the first graph, progression of cases
+ *      </Grid>
+ * 
+ *      <Grid item lg={12}> --> 12 to specify the 100% from the parent (that was 4)
+ *          Here goes the second graph, the total cases compared.
+ *      </Grid>
+ * 
+ *    </Grid> // End of 4 columns item // 
+ * 
+ *    <Grid item lg={12}> --> 12 to specify the 100%
+ *        Here goes the restrictions
+ *    </Grid>
+ * 
+ *  </Grid> // End of cantainer //
+ * 
+ * 
+ * 
+ * 
+ */
 
     return (
       <Grid container>
@@ -727,13 +814,9 @@ const theme = createMuiTheme({
           </Grid>
 
           <Grid item xs={12} sm={12} md={12} lg={12} >
-            <Restrictions style={{overflow:"auto"}} restrictions={restrictions}></Restrictions>
+            <Restrictions style={{overflow:"auto"}} restrictionsOn={restrictionOn} restrictions={restrictions}></Restrictions>
           </Grid>
-
-          
       </Grid>
-
-   
     )
 }
 
