@@ -58,7 +58,7 @@ const Restrictions = (props) => {
                                     Curfew
                                 </Typography>
                                 <GavelIcon></GavelIcon>
-                                {props.restrictions? true && (
+                                {props.restrictionsOn? true && (
                                     <Typography> {getRandoms(arrTexts) ? getRandoms(arrTexts)[0] : ''} </Typography>
                                 ) : ''}
                             </Grid>
@@ -67,7 +67,7 @@ const Restrictions = (props) => {
                                     Sport
                                 </Typography>
                                 <GavelIcon>xs=6 sm=3</GavelIcon>
-                                {props.restrictions? true && (
+                                {props.restrictionsOn? true && (
                                     <Typography>{getRandoms(arrTexts) ? getRandoms(arrTexts)[1] : ''}</Typography>
                                 ) : ''}
                             </Grid>
@@ -76,7 +76,7 @@ const Restrictions = (props) => {
                                     Restoration
                                 </Typography>
                                 <GavelIcon>xs=6 sm=3</GavelIcon>
-                                {props.restrictions? true && (
+                                {props.restrictionsOn? true && (
                                     <Typography>{getRandoms(arrTexts) ? getRandoms(arrTexts)[2] : ''}</Typography>
                                 ) : ''}
                             </Grid>
@@ -85,7 +85,7 @@ const Restrictions = (props) => {
                                     Social meetings
                                 </Typography>
                                 <GavelIcon>xs=6 sm=3</GavelIcon>
-                                {props.restrictions? true && (
+                                {props.restrictionsOn? true && (
                                     <Typography>{getRandoms(arrTexts) ? getRandoms(arrTexts)[3] : ''}</Typography>
                                 ) : ''}
                             </Grid>
