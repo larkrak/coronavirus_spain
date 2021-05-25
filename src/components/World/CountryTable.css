@@ -8,9 +8,10 @@
     overflow: scroll;
     overflow-x: hidden;
     height: 400px;
+    right: 1px;
 }
 
-.countries__table thead{
+.countries__table thead > tr {
     display: flex;
     justify-content: space-between;    
 }

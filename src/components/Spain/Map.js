@@ -331,7 +331,7 @@ const handleOpenTotalType = () => {
  *  _________
  * |_refTemp_|
  *  
- * This hook is here just because is not something general. This is only used in addTheOtherRegions(). Probably, y could have used a simple variable.
+ * This hook is here just because is not something general. This is only used in addTheOtherRegions(). Probably, I could have used a simple variable.
  * 
  * This function only has sense after user clicked on a region, so first thing i get is exactly the CCAA clicked. 
  * The hook dataSetCCAA gives me this info, i added that on the click event.

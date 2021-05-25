@@ -1,6 +1,6 @@
 import './App.css';
 import MapView from './components/Spain/MapView';
-import World from './components/world/World';
+import World from './components/World/World';
 import Landing from './components/Spain/Landing';
 import React from 'react';
 import ParticlesBackground from './components/Spain/ParticlesBackground';
