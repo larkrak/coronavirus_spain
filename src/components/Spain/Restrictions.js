@@ -49,7 +49,7 @@ const Restrictions = (props) => {
             <Grid item xs={12} sm={12} md={12} lg={12} style={{ margin:"15px" }}>
                 <Box>
                 <Typography variant="h3" style={{ color:"white" }} gutterBottom>
-                    Restricciones 
+                    Restrictions 
                 </Typography>
                     <Card style={{overflow:"auto"}}>
                         <CardContent style={{display:"flex", justifyContent:"center", flexWrap:"wrap", alignItems:"flex-column", textAlign:"center", overflowWrap:"break-word"}} >

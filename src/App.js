@@ -17,7 +17,7 @@ function App() {
   return (
     
     <Router>
- 
+      <ParticlesBackground></ParticlesBackground>
       <div>
         <Route exact path="/~dawbi2104/">
           <Grid container spacing={0}

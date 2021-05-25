@@ -3,6 +3,10 @@
     max-width: 2rem;
     max-height: 2rem;
 }
+
+table{
+    width: 100%;
+}
 .countries__table{
     margin-top: 2rem;
     overflow: scroll;

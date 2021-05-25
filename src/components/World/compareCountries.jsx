@@ -1,4 +1,4 @@
-import React, { useState, useRef} from 'react'
+import React, { useState, useRef } from 'react'
 import {
     FormControl,
     Select,
@@ -26,32 +26,32 @@ import { makeStyles } from '@material-ui/core/styles';
 function CompareCountries(data) {
     const [country, setCountry] = useState("");
     const [country2, setCountry2] = useState("");
-  
+
 
 
     function onCountryChange(event) {
         const countryCode = event.target.value;
         setCountry(countryCode);
-      };
+    };
 
-     
+
     function onCountryChange2(event) {
         const countryCode = event.target.value;
         setCountry2(countryCode);
-      };
+    };
 
-      const useStyles = makeStyles((theme) => ({
+    const useStyles = makeStyles((theme) => ({
         button: {
-          marginBottom: 15,  
+            marginBottom: 15,
         },
         formControl: {
-          margin: theme.spacing(1),
-          width:"100%"
+            margin: theme.spacing(1),
+            width: "20%"
         }
-      }));
+    }));
 
 
-      const classes = useStyles();
+    const classes = useStyles();
 
 
 
@@ -60,39 +60,41 @@ function CompareCountries(data) {
         <div>
             <Card container>
                 <CardContent>
+                    <Grid container >
                         {data?.data.length > 0 && (
+                            <Grid item xs={12} sm={12} md={12} lg={8} style={{ display: "flex", justifyContent: "center" }}>
                             <FormControl className={classes.formControl}>
-                                <Grid container >
-                                    <Grid item xs={12} sm={12} md={12} lg={8} style={{display:"flex", justifyContent:"center"}}>
-                                        <Select style={{margin:"15px"}}
-                                            variant="outlined"
-                                            onChange={onCountryChange}
-                                            value={country}
-                                        >
-                                            <MenuItem value=""></MenuItem>
-                                            {data.data.map((country) => (
-                                                <MenuItem value={country.value} key={country.name} >{country.name}</MenuItem>
-                                            ))}
-                                        </Select>
+                                
+                                    <Select style={{ margin: "15px" }}
+                                        variant="outlined"
+                                        onChange={onCountryChange}
+                                        value={country}
+                                    >
+                                        <MenuItem value=""></MenuItem>
+                                        {data.data.map((country) => (
+                                            <MenuItem value={country.value} key={country.name} >{country.name}</MenuItem>
+                                        ))}
+                                    </Select>
 
-                                        <Select style={{margin:"15px"}}
-                                            variant="outlined"
-                                            onChange={onCountryChange2}
-                                            value={country2}
-                                        >
-                                            <MenuItem value=""></MenuItem>
-                                            {data.data.map((country) => (
-                                                <MenuItem value={country.value} key={country.name} >{country.name}</MenuItem>
-                                            ))}
-                                        </Select>
-                                    </Grid>
-                                    <Grid item xs={12} sm={12} md={12} lg={4} >
-
-                                    </Grid>
+                                    <Select style={{ margin: "15px" }}
+                                        variant="outlined"
+                                        onChange={onCountryChange2}
+                                        value={country2}
+                                    >
+                                        <MenuItem value=""></MenuItem>
+                                        {data.data.map((country) => (
+                                            <MenuItem value={country.value} key={country.name} >{country.name}</MenuItem>
+                                        ))}
+                                    </Select>
+                                
+                            </FormControl>
+                            <Graph country1={country} country2={country2} ></Graph>
+                            </Grid>
+                        )}
+                        <Grid item xs={12} sm={12} md={12} lg={4} >
                                 </Grid>
-                            </FormControl>)}
-                    
-                        <Graph country1 = {country} country2 = {country2}></Graph>
+                        
+                    </Grid>
                 </CardContent>
             </Card>
 

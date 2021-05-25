@@ -103,19 +103,19 @@ function Graph({ caseType, country1, country2 }) {
     }, [caseType, country1, country2]);
 
     return (
-        <div>
+        <div style={{width: "80%"}}>
             {data?.length > 0 && (
                     <Line
                         data={{
                             labels:['1','2','3'],
                             datasets: [
 
-                                {   label: '# of Votes',
+                                {   label: country1,
                                     backgroundColor: 'rgb(54, 162, 235)',
                                     borderColor: 'rgba(54, 162, 235, 0.2)',
                                     data:  data
                                 },
-                                {   label: '# of what',
+                                {   label: country2,
                                     backgroundColor: 'rgb(255, 99, 132)',
                                     borderColor: 'rgba(255, 99, 132, 0.2)',
                                     data:  data2

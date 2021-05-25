@@ -145,46 +145,41 @@ function WorldMap({ countries, casesType, center, zoom }) {
     // </div>
     <div className="map">
       <Grid container style={{ color: "white", display: "flex", flexDirection: "row", textAlign: "center" }}>
-        <Grid item xs={12} sm={12} md={12} lg={12} style={{ padding: "15px", display: "flex", alignItems: "center", fontSize: "22px", color: "black" }}>
-          <Grid item xs={12} sm={12} md={12} lg={10}>
-            <span><strong>Date: {formattedDate}</strong></span>
+        
+        <Grid item xs={12} sm={12} md={12} lg={8} style={{ padding: "15px" }}>
+          <Grid item xs={12} sm={12} md={12} lg={12} style={{ padding: "15px", display: "flex", alignItems: "center", fontSize: "22px", color: "black" }}>
+            <Grid item xs={12} sm={12} md={12} lg={10}>
+              <span><strong>Date: {formattedDate}</strong></span>
+            </Grid>
+            <Grid item xs={12} sm={12} md={12} lg={2} style={{ display: "flex", justifyContent: "space-between" }}>
+              <Button
+                variant="contained"
+                color="default"
+                onClick={() => setIsActive(!isActive)}
+              >{isActive ? <PauseIcon></PauseIcon> : <PlayArrowIcon></PlayArrowIcon>}</Button>
+              <Button
+                variant="contained"
+                color="default"
+                onClick={stopTimer}
+              >{<StopIcon></StopIcon>}</Button>
+            </Grid>
           </Grid>
-          <Grid item xs={12} sm={12} md={12} lg={2} style={{ display: "flex", justifyContent: "space-between" }}>
-            <Button
-              variant="contained"
-              color="default"
-              onClick={() => setIsActive(!isActive)}
-            >{isActive ? <PauseIcon></PauseIcon> : <PlayArrowIcon></PlayArrowIcon>}</Button>
-            <Button
-              variant="contained"
-              color="default"
-              onClick={stopTimer}
-            >{<StopIcon></StopIcon>}</Button>
-          </Grid>
+
+          <MapContainer center={center} zoom={zoom} timeDimension={true}>
+            <TileLayer
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            />
+            {showColor(casesType)}
+            {showDataOnMap(countriesData, casesType)}
+          </MapContainer>
         </Grid>
 
-
-
-        <Grid item xs={12} sm={12} md={12} lg={12} >
-          <Grid item xs={12} sm={12} md={12} lg={8} style={{ padding: "15px" }}>
-            <MapContainer style={{ height: "80vh" }} center={center} zoom={zoom} timeDimension={true}>
-              <TileLayer
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-              />
-              {showColor(casesType)}
-              {showDataOnMap(countriesData, casesType)}
-            </MapContainer>
-          </Grid>
-
-          <Grid item xs={12} sm={12} md={12} lg={4} style={{ color: "black", padding: "15px" }}>
-
-            <CountryTable
-              countries={countriesData} type={casesType} stopped={stopped}>
-            </CountryTable>
-          </Grid>
+        <Grid item xs={12} sm={12} md={12} lg={4} style={{ color: "black", padding: "15px" }}>
+          <CountryTable
+            countries={countriesData} type={casesType} stopped={stopped}>
+          </CountryTable>
         </Grid>
-
       </Grid>
 
     </div>
