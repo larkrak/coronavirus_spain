@@ -90,7 +90,6 @@ const Restrictions = (props) => {
                                 ) : ''}
                             </Grid>
                         </CardContent>
-                        <Typography>*<em>Comarcas o regiones sanitarias</em></Typography>
                     </Card>
                 </Box>
             </Grid>    

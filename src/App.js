@@ -19,7 +19,7 @@ function App() {
     <Router>
       <ParticlesBackground></ParticlesBackground>
       <div>
-        <Route exact path="/~dawbi2104/">
+        <Route exact path={["/~dawbi2104/", "/"]}>
           <Grid container spacing={0}
                 direction="row"
                 alignItems="center"
