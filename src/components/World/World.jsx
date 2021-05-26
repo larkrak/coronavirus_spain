@@ -1,20 +1,20 @@
-import {
-  FormControl,
-  Select,
-  MenuItem,
-  
-} from "@material-ui/core";
+//Import react
 import React, { useState, useEffect } from "react";
+//Import components
 import Status from "./Status";
 import WorldMap from "./WorldMap";
 import "./World.css";
-
-
 import ProgressBar from './ProgressBar';
 import CompareCountries from './compareCountries';
+//Import Material UI components
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import {
+  FormControl,
+  Select,
+  MenuItem, 
+} from "@material-ui/core";
 
 
 
