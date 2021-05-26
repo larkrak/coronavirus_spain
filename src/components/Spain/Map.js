@@ -563,10 +563,10 @@ function onEachFeature(feature, layer) {
 
           layer.bindPopup('<div class="info">'
           +'<h1>'+region+', '+ccaa+'</h1>'
-          +'<div><p><h3>Casos Totales Diagnosticados: '+e.target.feature.properties.total_casos_provincia+'</h3></p>'
-          +'<p><h3>Casos totales de hospitalizaciones: '+e.target.feature.properties.total_hosp_provincia+'</h3></p>'
-          +'<p><h3>Casos totales de ingresos en UCI: '+e.target.feature.properties.total_uci_provincia+'</h3></p>'
-          +'<p><h3>Casos totales de defunciones: '+e.target.feature.properties.total_def_provincia+'</h3></p>'
+          +'<div><p><h3>Total cases diagnosed: '+e.target.feature.properties.total_casos_provincia+'</h3></p>'
+          +'<p><h3>Total cases of hospitalizations: '+e.target.feature.properties.total_hosp_provincia+'</h3></p>'
+          +'<p><h3>Total cases of ICU admissions: '+e.target.feature.properties.total_uci_provincia+'</h3></p>'
+          +'<p><h3>Total cases of deaths: '+e.target.feature.properties.total_def_provincia+'</h3></p>'
           +'</div>'
           +'</div>').openPopup()
 
