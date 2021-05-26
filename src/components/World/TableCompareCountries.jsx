@@ -1,4 +1,5 @@
 import React,{useEffect, useState} from 'react';
+import './TableCompareCountries.css';
 
 function TableCompareCountries({firstCountry, secondCountry}) {
 
@@ -24,6 +25,8 @@ function TableCompareCountries({firstCountry, secondCountry}) {
                     const   vaccinated = data.timeline[Object.keys(data.timeline)[0]]
                     setVaccineFistCountry(vaccinated);
 
+                }else{
+                    setVaccineSecondCountry(0);
                 }
                  
             })
@@ -55,7 +58,9 @@ function TableCompareCountries({firstCountry, secondCountry}) {
             .then((data) =>{  
                 if(data.timeline){
                  const   vaccinated = data?.timeline[Object.keys(data.timeline)[0]]
-                    setVaccineSecondCountry(vaccinated);}
+                    setVaccineSecondCountry(vaccinated);}else{
+                        setVaccineSecondCountry(0);
+                    }
             })
           };
 
@@ -92,14 +97,17 @@ function TableCompareCountries({firstCountry, secondCountry}) {
 
 
     return (
-        <div>
+        <div className="countries__table">
             
              <table>
                                 <thead>
                                     <tr>
-                                        <th>Info</th>
-                                        <th><img className="country__img" src={country1.countryInfo.flag} alt="" /> {firstCountry}</th>
-                                        <th><img className="country__img" src={country2.countryInfo.flag} alt="" />{secondCountry}</th>
+                                        <th>Information</th>
+                                        { country1.countryInfo && (
+                                        <th><img className="country__img" src={country1.countryInfo.flag} alt="" /> {firstCountry}</th>)}
+                                        { country2.countryInfo && (
+                                        <th><img className="country__img" src={country2.countryInfo.flag} alt="" /> {secondCountry}</th>)}
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -110,9 +118,9 @@ function TableCompareCountries({firstCountry, secondCountry}) {
                                     </tr>
                                     <tr>
                                         <td>Vaccinated</td>
-                                        {country1['vaccinated'] > 0 &&(
+                                        {country1['vaccinated'] >= 0 &&(
                                         <td>{country1['vaccinated']}</td>)}
-                                        {country2['vaccinated'] > 0 &&(
+                                        {country2['vaccinated'] >= 0 &&(
                                         <td>{country2['vaccinated']}</td>)}
                                         
                                     </tr>

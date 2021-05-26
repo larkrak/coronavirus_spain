@@ -1,0 +1,36 @@
+.country__img{
+    padding-top:0.3rem;
+    max-width: 2rem;
+    max-height: 2rem;
+}
+
+table{
+    width: 100%;
+}
+.countries__table{
+    margin-top: 2rem;
+    overflow: scroll;
+    overflow-x: hidden;
+    height: 400px;
+    right: 1px;
+}
+
+.countries__table thead > tr {
+    display: flex;
+    justify-content: space-between;    
+}
+
+
+.countries__table tbody{
+    display: flex;
+    flex-direction: column;    
+}
+
+.countries__table  tbody > tr {
+    display: flex;
+    justify-content: space-between;
+}
+
+.countries__table td{
+    padding: 0.5rem;
+}
