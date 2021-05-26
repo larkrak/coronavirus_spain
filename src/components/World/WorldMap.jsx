@@ -2,15 +2,12 @@ import React, { useEffect, useState } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 import "./WorldMap.css";
 import 'leaflet/dist/leaflet.css'
-import { showColor, showDataOnMap } from "../../utilities/util";
 import moment from 'moment';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import PauseIcon from '@material-ui/icons/Pause';
 import StopIcon from '@material-ui/icons/Stop';
 import CountryTable from "./CountryTable";
 import {
-  CardContent,
-  Card,
 } from "@material-ui/core";
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -27,7 +24,6 @@ function WorldMap({ countries, casesType, center, zoom }) {
   const [countriesData, setCountriesData] = useState(countries);
   const [stopped, setStopped] = useState(false);
   const [color, setColor] = useState(casesType);
-  const [vaccine, setVaccine] = useState(countries)
 
 
 
@@ -56,20 +52,27 @@ function WorldMap({ countries, casesType, center, zoom }) {
           cases: country.timeline.cases[formattedDate],
           deaths: country.timeline.deaths[formattedDate],
           recovered: country.timeline.recovered[formattedDate],
+          vaccinated: getVaccinated(country.country,formattedDate),
           countryInfo: getCountryInfo(country.country),
         }));
 
-        const countriesVaccine = globalVaccine.map((country) => ({
-          country: country.country,
-          vaccine: parseInt(`${country.timeline[formattedDate]? country.timeline[formattedDate]:0}`),
-          countryInfo: getCountryInfo(country.country),
-        }));
+       
         
         setCountriesData(countries2);
-        setVaccine(countriesVaccine);
+        
       }, 200)
     }
 
+    function getVaccinated(country,formatted){
+      let found ;
+      for (var i = 0; i < globalVaccine.length; i++) {
+        if (globalVaccine[i].country === country) {
+          found = globalVaccine[i].timeline[formatted] ? globalVaccine[i].timeline[formatted]  : 0;
+        }
+      }
+      
+      return found;
+    }
     function getCountryInfo(country) {
       let found = {}
       for (var i = 0; i < countries.length; i++) {
@@ -156,7 +159,7 @@ function WorldMap({ countries, casesType, center, zoom }) {
           <div>
           
           <Circules data={countriesData} casesType ={color}></Circules>
-          <Circules data={vaccine} casesType ="vaccine"></Circules>
+          <Circules data={countriesData} casesType ="vaccinated"></Circules>
           </div>
            
             

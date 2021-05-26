@@ -23,19 +23,13 @@ function Circules({data, casesType=""}) {
       multiplier: 800,
 
     },
-    vaccine: {
+    vaccinated: {
       hex: "blue",
       multiplier: 100,
     }
   };
 
-  function colorFunction (cases){
-
-    
-   let color = cases === "cases"? "red": "green";
-    
-    return color;
-  }
+ 
 
   
    const countries1 = () => data.map((country) => (
@@ -70,7 +64,7 @@ function Circules({data, casesType=""}) {
             Deaths: {numeral(country.deaths).format("0,0")}
           </div>
           <div className="info-deaths">
-            Vaccinated: {numeral(country.vaccine).format("0,0")}
+            Vaccinated: {numeral(country.vaccinated).format("0,0")}
           </div>
         </div>
       </Popup>
@@ -97,7 +91,7 @@ function Circules({data, casesType=""}) {
               hex: "#993333",
               multiplier: 800,
             },
-            vaccine: {
+            vaccinated: {
               hex: "blue",
               multiplier: 100,
             }

@@ -2,22 +2,20 @@ import {
   FormControl,
   Select,
   MenuItem,
-  CardContent,
-  Card,
+  
 } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
 import Status from "./Status";
 import WorldMap from "./WorldMap";
 import "./World.css";
-import CountryTable from "./CountryTable";
-import { sortData } from '../../utilities/util';
-import Graph from './Graph';
+
+
 import ProgressBar from './ProgressBar';
 import CompareCountries from './compareCountries';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
+
 
 
 
@@ -31,7 +29,7 @@ function World() {
   const [casesType, setCasesType] = useState("cases");
   const [mapCenter, setMapCenter] = useState({ lat: 34.80746, lng: -40.4796 });
   const [mapZoom, setMapZoom] = useState(3);
-  const [tableData, setTableData] = useState([]);
+ 
 
   /*The useEffect function will run everytime the state of an object changes, but if there is no given object it 
     will only run once, at the load data phase.
@@ -65,13 +63,11 @@ function World() {
             name: country.country,
             value: country.countryInfo.iso3,
           }));
-          /**
-           * We sort the recieved data by using the sortData function we created.
-           */
-          const sortedData = sortData(data, casesType);
+          
+          
           setCountries(countries);
           setMapCountries(data);
-          setTableData(sortedData);
+          
         });
     };
     getCountriesData();
