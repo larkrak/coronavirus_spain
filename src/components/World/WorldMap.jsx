@@ -11,7 +11,10 @@ import {
 } from "@material-ui/core";
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import Circules from './Circules';
+import Circles from './Circles';
+import CheckIcon from '@material-ui/icons/Check';
+import ClearIcon from '@material-ui/icons/Clear';
+
 
 
 function WorldMap({ countries, casesType, center, zoom }) {
@@ -24,7 +27,8 @@ function WorldMap({ countries, casesType, center, zoom }) {
   const [countriesData, setCountriesData] = useState(countries);
   const [stopped, setStopped] = useState(false);
   const [color, setColor] = useState(casesType);
-
+  const [casesActive, setCasesActive] = useState(true);
+  const [vaccineActive, setVaccineActive] = useState(true);
 
 
 
@@ -52,25 +56,25 @@ function WorldMap({ countries, casesType, center, zoom }) {
           cases: country.timeline.cases[formattedDate],
           deaths: country.timeline.deaths[formattedDate],
           recovered: country.timeline.recovered[formattedDate],
-          vaccinated: getVaccinated(country.country,formattedDate),
+          vaccinated: getVaccinated(country.country, formattedDate),
           countryInfo: getCountryInfo(country.country),
         }));
 
-       
-        
+
+
         setCountriesData(countries2);
-        
+
       }, 200)
     }
 
-    function getVaccinated(country,formatted){
-      let found ;
+    function getVaccinated(country, formatted) {
+      let found;
       for (var i = 0; i < globalVaccine.length; i++) {
         if (globalVaccine[i].country === country) {
-          found = globalVaccine[i].timeline[formatted] ? globalVaccine[i].timeline[formatted]  : 0;
+          found = globalVaccine[i].timeline[formatted] ? globalVaccine[i].timeline[formatted] : 0;
         }
       }
-      
+
       return found;
     }
     function getCountryInfo(country) {
@@ -84,7 +88,7 @@ function WorldMap({ countries, casesType, center, zoom }) {
       return found;
     }
     return () => clearInterval(intervalId);
-  }, [isActive, formattedDate, date, global, countries, casesType,globalVaccine])
+  }, [isActive, formattedDate, date, global, countries, casesType, globalVaccine])
 
 
   useEffect(() => {
@@ -105,15 +109,15 @@ function WorldMap({ countries, casesType, center, zoom }) {
         });
     };
 
-    const getCountriesVaccine = async() => {
-      await fetch ("https://disease.sh/v3/covid-19/vaccine/coverage/countries?lastdays=all&fullData=false")
-      .then((response) => response.json())
-      .then((data)=>{
-        var filtered = data.filter(function (el) {
-          return el != null;
-        });
-        setGlobalVaccine(filtered);
-      })
+    const getCountriesVaccine = async () => {
+      await fetch("https://disease.sh/v3/covid-19/vaccine/coverage/countries?lastdays=all&fullData=false")
+        .then((response) => response.json())
+        .then((data) => {
+          var filtered = data.filter(function (el) {
+            return el != null;
+          });
+          setGlobalVaccine(filtered);
+        })
     };
     getCountriesData();
     getCountriesVaccine();
@@ -127,15 +131,70 @@ function WorldMap({ countries, casesType, center, zoom }) {
     setCountriesData(countries)
   }
 
+
+  const casesTypeColors = {
+    cases: {
+      hex: "#CC1034",
+      multiplier: 100,
+    },
+    recovered: {
+      hex: "#7dd71d",
+
+      multiplier: 100,
+    },
+    deaths: {
+      hex: "#993333",
+      multiplier: 800,
+
+    },
+    vaccinated: {
+      hex: "blue",
+      multiplier: 100,
+    }
+  };
+
   return (
-    
+
     <div className="map">
       <Grid container style={{ color: "white", display: "flex", flexDirection: "row", textAlign: "center" }}>
-        
+
         <Grid item xs={12} sm={12} md={12} lg={8} style={{ padding: "15px" }}>
           <Grid item xs={12} sm={12} md={12} lg={12} style={{ padding: "15px", display: "flex", alignItems: "center", fontSize: "22px", color: "black" }}>
             <Grid item xs={12} sm={12} md={12} lg={10}>
-              <span><strong>Date: {formattedDate}</strong></span>
+
+              <div style={{ display: "flex" }}>
+
+                <Button
+                  onClick={() => setCasesActive(!casesActive)}
+                >
+                  <div >
+                    <div class='box ' style={{ backgroundColor: casesTypeColors[casesType].hex }}>
+
+                    </div>
+                   
+                    {casesType}
+                    {casesActive?  <CheckIcon></CheckIcon>: <ClearIcon></ClearIcon>}
+
+                  </div>
+                  
+                </Button>
+
+
+                <Button
+                  onClick={() => setVaccineActive(!vaccineActive)}
+                >
+                  <div><div class='box' style={{ backgroundColor: "blue" }}></div> 
+                  
+                  Vaccination
+                  {vaccineActive?  <CheckIcon></CheckIcon>: <ClearIcon></ClearIcon>}
+                  </div>
+                 
+                </Button>
+
+
+                <span><strong>Date: {formattedDate}</strong></span>
+
+              </div>
             </Grid>
             <Grid item xs={12} sm={12} md={12} lg={2} style={{ display: "flex", justifyContent: "space-between" }}>
               <Button
@@ -156,13 +215,23 @@ function WorldMap({ countries, casesType, center, zoom }) {
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             />
-          <div>
-          
-          <Circules data={countriesData} casesType ={color}></Circules>
-          <Circules data={countriesData} casesType ="vaccinated"></Circules>
-          </div>
-           
-            
+            <div>
+              {casesActive && (
+
+                <Circles data={countriesData} casesType={color}></Circles>
+
+              )}
+
+              {vaccineActive && (
+                <Circles data={countriesData} casesType="vaccinated"></Circles>
+              )
+
+              }
+
+
+            </div>
+
+
 
           </MapContainer>
         </Grid>
@@ -173,7 +242,7 @@ function WorldMap({ countries, casesType, center, zoom }) {
           </CountryTable>
         </Grid>
       </Grid>
-      
+
     </div>
   );
 }

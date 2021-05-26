@@ -1,6 +1,3 @@
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 
@@ -29,42 +26,108 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+# Coronavirus interactive map
+## Made by: 
+> Ismael Collado Cala, Darryl Johan Estrada Zavala, Luis Gerardo Corrales Bravo
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Source Code -> Folder SRC <-
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```bash
+SpainMap/src/
+├── App.css
+├── App.js
+├── App.test.js
+├── components {Dir}
+│   ├── Spain {Dir}
+│   │   ├── Landing.js
+│   │   ├── Loading.js
+│   │   ├── Map.js
+│   │   ├── MapView.js
+│   │   ├── ParticlesBackground.js
+│   │   └── Restrictions.js
+│   └── World {Dir}
+|       ├── Circles.jsx
+│       ├── compareCountries.jsx
+│       ├── CountryTable.css
+│       ├── CountryTable.jsx
+│       ├── Graph.jsx
+│       ├── ProgressBar.css
+│       ├── ProgressBar.jsx
+│       ├── Status.css
+│       ├── Status.jsx
+│       ├── TableCompareCountries.css
+│       ├── TableCompareCountries.jsx
+│       ├── World.css
+│       ├── World.jsx
+│       ├── WorldMap.css
+│       └── WorldMap.jsx
+├── data {Dir}
+│   └── spain-provincias.json
+├── index.css
+├── index.js
+├── particles-config.js
+├── reportWebVitals.js
+├── setupTests.js
+├── tasks {Dir}
+│   ├── data_final_per_region_and_CCAA_historic.csv
+│   └── LoadDataTask.js
+└── utilities {Dir}
+    └── util.js
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
+# File -> App.js <-
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+* First component loading on the web page. This component contains a Router, specified home as 3 Landing components, one for Spain, World and Covid Information.
+* Depending on the href of the Landong component, Router will load one or another component.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
+# Directory -> components <-
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+It contains the differents components of our proyect:
 
-### Analyzing the Bundle Size
+* [Spain](#Spain)
+* [World](#World)
+* [Covid Information](#Covid-Information)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+# Spain
 
-### Advanced Configuration
+* Landing
+    * Component that loads a grid component with a tag < a >. In this component is where I control the size of the hovered item. This component also receives the url of the image I am using, algo the href  for the routing element.
+* Loading
+    * This is a simple component used to show a circular progress component while data is being read. The truth is that this is barely visible becouse the rest of the components loading and the background.
+* Mapview
+    * Is the div containing my main data. All the components including the map, restrictions and graphs. This components loads the Loading component while the main variable (provincias) is lenght of 0. When that variable is not 0, I render CovidMap component sending provincias variable as a prop. CovidMap is how I called the funcion exported in "Map.js" component.
+* Map
+    * This component is where all the main functionality happens. The main layout is inside this component. Also, all the events managing the clicks of the user. The restriction measures and the data content on the graphs.
+* ParticlesBackground
+    * This component is only the background of our application. This is a library that needs a config json that will load inside the component. Also, its a component of react installing it as a npm package. Its not vanilla js.
+* Restrictions
+    * This component are the restrictions for every region. The user click on a region and the restrictions shows.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+# World
 
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+* Circles
+    * This component is in charge of generating the <Circle LeafLet\> that willl be displayed on the map.
+  
+* compareCountries
+    * This component is in charge of the comparison of two contries, it controls  the TableCompareCountries and Graph components. 
+* CountryTable
+    * This component returns a table that is generated with the data recived by WorldMap component, when the WorldMap component is stopped it makes an async request to the disease.sh API the get the current data.
+* Graph
+    * This component generates a Graph based on the given country or countries and the type of case the user wants, since we need an historical of cases, this component makes an API call to get the countries data. 
+* ProgressBar
+    * This component generates a progress bar that is based on the type of cases of the selected country and the population of that country. 
+* Status
+    * This component displays information of cases and when it is click it trigers a function given by its parent component. 
+* TableCompareCountries
+    * This component generates table  that displays a more detailed information of a country or countries, it makes API calls to get the vaccination progress of the country and also the most current general information of that country. 
+* World
+    * This is the MAIN component of the World section, this controls all the Status,WorldMap and CompareCountries components. 
+* WorldMap
+    * This is probably the most interesting component of all, here I control what is sent to the CountryTable and Circles Components, It is based on a setInterval function to simulate a player, since React-Leaflet does not have that feature developed yet, I had to make my own player, every 200ms the circles on the map will change and new circles will be display the map, the same information is sent to the CountryTable  component so it changes the value of the table. Making the illusion that it is a video  but it is not. 

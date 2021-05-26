@@ -7,30 +7,38 @@
 table{
     width: 100%;
 }
-.countries__table{
+.countries__table2 {
     margin-top: 2rem;
     overflow: scroll;
     overflow-x: hidden;
-    height: 400px;
+    height: 100%;
     right: 1px;
 }
 
-.countries__table thead > tr {
+.countries__table2 thead > tr {
     display: flex;
-    justify-content: space-between;    
+    justify-content:space-around;    
 }
 
 
-.countries__table tbody{
+.countries__table2 tbody  {
     display: flex;
-    flex-direction: column;    
+    flex-direction: column; 
+    text-align: center;   
 }
 
-.countries__table  tbody > tr {
+.countries__table2 tbody tr{
     display: flex;
-    justify-content: space-between;
+    margin-top: 1rem;
 }
 
-.countries__table td{
+
+
+.countries__table2  tbody > tr > td{
+    width:33%;
+
+}
+
+.countries__table2 td{
     padding: 0.5rem;
 }

@@ -3,7 +3,7 @@ import { Circle, Popup } from "react-leaflet";
 import numeral from "numeral";
 
 
-function Circules({data, casesType=""}) {
+function Circles({data, casesType=""}) {
 
 
   const [color, setColor] = useState("");
@@ -39,9 +39,15 @@ function Circules({data, casesType=""}) {
       
       
       <Circle
+
+      
       center= {[country.countryInfo.lat? country.countryInfo.lat:0, country.countryInfo.long? country.countryInfo.long: 0]}
-      color={casesTypeColors[casesType].hex}
-      fillColor={casesTypeColors[casesType].hex}
+      pathOptions={{
+
+        color:casesTypeColors[casesType].hex,
+        fillColor:casesTypeColors[casesType].hex
+      }}
+     
       fillOpacity={0.4}
       radius={ 
         Math.sqrt(country[casesType]) * casesTypeColors[casesType].multiplier
@@ -100,7 +106,7 @@ function Circules({data, casesType=""}) {
 
           setColor(casesTypeColors[casesType].hex)
           
-
+          
         
       },[color,data,casesType]);
    
@@ -120,4 +126,4 @@ function Circules({data, casesType=""}) {
     )
 }
 
-export default Circules
+export default Circles

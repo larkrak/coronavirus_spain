@@ -6,8 +6,8 @@ function TableCompareCountries({firstCountry, secondCountry}) {
 
     const [country1, setCountry1] = useState({});
     const [country2, setCountry2] = useState({});
-    const [vaccineFistCountry, setVaccineFistCountry] = useState(0);
-    const[vaccineSecondCountry, setVaccineSecondCountry] = useState(0);
+    const [vaccineFistCountry, setVaccineFistCountry] = useState();
+    const[vaccineSecondCountry, setVaccineSecondCountry] = useState();
 
     useEffect(() => {
 
@@ -26,7 +26,7 @@ function TableCompareCountries({firstCountry, secondCountry}) {
                     setVaccineFistCountry(vaccinated);
 
                 }else{
-                    setVaccineSecondCountry(0);
+                    setVaccineSecondCountry("");
                 }
                  
             })
@@ -40,10 +40,17 @@ function TableCompareCountries({firstCountry, secondCountry}) {
             .then((data) => {
                const country = {
                 country: data.country,
-                population: data.population,
-                countryInfo: data.countryInfo,
-                casesPerOneMillion: data.casesPerOneMillion,
-                deathsPerOneMillion: data.deathsPerOneMillion,
+                    cases: data.cases,
+                    todayCases: data.todayCases,
+                    deaths: data.deaths,
+                    todayDeaths: data.todayDeaths,
+                    recovered: data.recovered,
+                    todayRecovered: data.todayRecovered,
+                    population: data.population,
+                    countryInfo: data.countryInfo,
+                    tests: data.tests,
+                    casesPerOneMillion: data.casesPerOneMillion,
+                    deathsPerOneMillion: data.deathsPerOneMillion,
                 vaccinated: vaccineFistCountry
                 
                }
@@ -59,7 +66,7 @@ function TableCompareCountries({firstCountry, secondCountry}) {
                 if(data.timeline){
                  const   vaccinated = data?.timeline[Object.keys(data.timeline)[0]]
                     setVaccineSecondCountry(vaccinated);}else{
-                        setVaccineSecondCountry(0);
+                        setVaccineSecondCountry("");
                     }
             })
           };
@@ -71,8 +78,15 @@ function TableCompareCountries({firstCountry, secondCountry}) {
               .then((data) => {  
                 const country = {
                     country: data.country,
+                    cases: data.cases,
+                    todayCases: data.todayCases,
+                    deaths: data.deaths,
+                    todayDeaths: data.todayDeaths,
+                    recovered: data.recovered,
+                    todayRecovered: data.todayRecovered,
                     population: data.population,
                     countryInfo: data.countryInfo,
+                    tests: data.tests,
                     casesPerOneMillion: data.casesPerOneMillion,
                     deathsPerOneMillion: data.deathsPerOneMillion,
                     vaccinated: vaccineSecondCountry
@@ -97,7 +111,7 @@ function TableCompareCountries({firstCountry, secondCountry}) {
 
 
     return (
-        <div className="countries__table">
+        <div className="countries__table2">
             
              <table>
                                 <thead>
@@ -113,26 +127,90 @@ function TableCompareCountries({firstCountry, secondCountry}) {
                                 <tbody>
                                     <tr>
                                         <td>Population</td>
-                                        <td>{country1['population']}</td>
-                                        <td>{country2['population']}</td>
+                                        { country1.countryInfo && (
+                                        <td>{country1['population']}</td>)}
+                                        { country2.countryInfo && (
+                                        <td>{country2['population']}</td>)}
+                                    </tr>
+                                    <tr>
+                                        <td>Cases</td>
+                                        { country1.countryInfo && (
+                                        <td>{country1['cases']}</td>)}
+                                        { country2.countryInfo && (
+                                        <td>{country2['cases']}</td>)}
                                     </tr>
                                     <tr>
                                         <td>Vaccinated</td>
-                                        {country1['vaccinated'] >= 0 &&(
+                                        {country1['vaccinated'] > 0 &&(
                                         <td>{country1['vaccinated']}</td>)}
-                                        {country2['vaccinated'] >= 0 &&(
+                                        {country2['vaccinated'] > 0 &&(
                                         <td>{country2['vaccinated']}</td>)}
                                         
                                     </tr>
                                     <tr>
+                                        <td>Deaths</td>
+                                        { country1.countryInfo && (
+                                        <td>{country1['deaths']}</td>)}
+                                        { country2.countryInfo && (
+                                        <td>{country2['deaths']}</td>)}
+                                    </tr>
+                                    <tr>
+                                        <td>Recovered</td>
+                                        { country1.countryInfo && (
+                                        <td>{country1['recovered']}</td>)}
+                                        { country2.countryInfo && (
+                                        <td>{country2['recovered']}</td>)}
+                                    </tr>
+
+
+                                    <tr>
+                                        <td>Today cases</td>
+                                        { country1.countryInfo && (
+                                        <td>{country1['todayCases']}</td>)}
+                                        { country2.countryInfo && (
+                                        <td>{country2['todayCases']}</td>)}
+                                    </tr>
+
+                                    <tr>
+                                        <td>Today deaths</td>
+                                        { country1.countryInfo && (
+                                        <td>{country1['todayDeaths']}</td>)}
+                                        { country2.countryInfo && (
+                                        <td>{country2['todayDeaths']}</td>)}
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td>Today recovered</td>
+                                        { country1.countryInfo && (
+                                        <td>{country1['todayRecovered']}</td>)}
+                                        { country2.countryInfo && (
+                                        <td>{country2['todayRecovered']}</td>)}
+                                    </tr>
+                                    
+                                
+                                    <tr>
+                                        <td>Test</td>
+                                        { country1.countryInfo && (
+                                        <td>{country1['tests']}</td>)}
+                                        { country2.countryInfo && (
+                                        <td>{country2['tests']}</td>)}
+                                    </tr>
+                                    
+
+                                   
+                                    <tr>
                                         <td>Cases per one million</td>
-                                        <td>{country1['casesPerOneMillion']}</td>
-                                        <td>{country2['casesPerOneMillion']}</td>
+                                        { country1.countryInfo && (
+                                        <td>{country1['casesPerOneMillion']}</td>)}
+                                        { country2.countryInfo && (
+                                        <td>{country2['casesPerOneMillion']}</td>)}
                                     </tr>
                                     <tr>
                                         <td>Deaths per one million</td>
-                                        <td>{country1['deathsPerOneMillion']}</td>
-                                        <td>{country2['deathsPerOneMillion']}</td>
+                                        { country1.countryInfo && (
+                                        <td>{country1['deathsPerOneMillion']}</td>)}
+                                        { country2.countryInfo && (
+                                        <td>{country2['deathsPerOneMillion']}</td>)}
                                     </tr>
                                    
 

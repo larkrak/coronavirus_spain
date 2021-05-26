@@ -135,7 +135,7 @@ function World() {
           onClick={(e) => setCasesType("cases")}
           active={casesType === "cases"}
           isRed
-          title="Corona Virus Cases"
+          title="Cases"
           cases={countryInfo.todayCases}
           total={countryInfo.cases}
         ></Status>
