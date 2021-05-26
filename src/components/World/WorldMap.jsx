@@ -14,7 +14,7 @@ import {
 } from "@material-ui/core";
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-
+import Circules from './Circules';
 
 
 function WorldMap({ countries, casesType, center, zoom }) {
@@ -23,10 +23,11 @@ function WorldMap({ countries, casesType, center, zoom }) {
   const [formattedDate, setFormattedDate] = useState("1/29/20");
   const [isActive, setIsActive] = useState(false);
   const [global, setGlobal] = useState(countries);
+  const [globalVaccine, setGlobalVaccine] = useState(countries);
   const [countriesData, setCountriesData] = useState(countries);
   const [stopped, setStopped] = useState(false);
   const [color, setColor] = useState(casesType);
-
+  const [vaccine, setVaccine] = useState(countries)
 
 
 
@@ -46,7 +47,6 @@ function WorldMap({ countries, casesType, center, zoom }) {
       setIsActive(false);
     }
     if (isActive) {
-
       setStopped(false);
       intervalId = setInterval(() => {
         setDate(date.add(1, "days"))
@@ -59,7 +59,14 @@ function WorldMap({ countries, casesType, center, zoom }) {
           countryInfo: getCountryInfo(country.country),
         }));
 
-        setCountriesData(countries2)
+        const countriesVaccine = globalVaccine.map((country) => ({
+          country: country.country,
+          vaccine: parseInt(`${country.timeline[formattedDate]? country.timeline[formattedDate]:0}`),
+          countryInfo: getCountryInfo(country.country),
+        }));
+        
+        setCountriesData(countries2);
+        setVaccine(countriesVaccine);
       }, 200)
     }
 
@@ -74,7 +81,7 @@ function WorldMap({ countries, casesType, center, zoom }) {
       return found;
     }
     return () => clearInterval(intervalId);
-  }, [isActive, formattedDate, date, global, countries, casesType])
+  }, [isActive, formattedDate, date, global, countries, casesType,globalVaccine])
 
 
   useEffect(() => {
@@ -94,7 +101,19 @@ function WorldMap({ countries, casesType, center, zoom }) {
           setGlobal(filtered)
         });
     };
+
+    const getCountriesVaccine = async() => {
+      await fetch ("https://disease.sh/v3/covid-19/vaccine/coverage/countries?lastdays=all&fullData=false")
+      .then((response) => response.json())
+      .then((data)=>{
+        var filtered = data.filter(function (el) {
+          return el != null;
+        });
+        setGlobalVaccine(filtered);
+      })
+    };
     getCountriesData();
+    getCountriesVaccine();
   }, [countries]);
 
   function stopTimer() {
@@ -106,43 +125,7 @@ function WorldMap({ countries, casesType, center, zoom }) {
   }
 
   return (
-    // <div className="map">
-    //   <Grid container >
-    //     <Grid item xs={8}>
-    //     <div>
-    //         {/* <div className="time">
-    //           <span className="minute">{formattedDate}</span>
-    //         </div> */}
-    //         <div className="buttons">
-    //           <button onClick={() => setIsActive(!isActive)} className="start">{isActive ? <PauseIcon></PauseIcon> : <PlayArrowIcon></PlayArrowIcon>}</button>
-    //           <button onClick={stopTimer} className="reset"><StopIcon></StopIcon></button>
-    //           <span className="minute">{stopped? moment().format("MM/DD/YY") :formattedDate  }</span>
-    //         </div>
-    //       </div>
-
-    //       <MapContainer  center={center} zoom={zoom} timeDimension={true}>
-    //         <TileLayer
-    //           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-    //           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-    //         />
-
-    //         {/* {showColor(color)} */}
-    //         {showDataOnMap(countriesData, color)}
-    //       </MapContainer>
-
-
-    //     </Grid>
-    //     <Grid item xs={4}>
-    //       {/* <Card container>
-    //         <CardContent> */}
-    //            <CountryTable
-    //            countries={countriesData} type={casesType} stopped = {stopped}>
-    //          </CountryTable>
-    //         {/* </CardContent>
-    //       </Card> */}
-    //     </Grid>
-    //   </Grid>
-    // </div>
+    
     <div className="map">
       <Grid container style={{ color: "white", display: "flex", flexDirection: "row", textAlign: "center" }}>
         
@@ -170,18 +153,24 @@ function WorldMap({ countries, casesType, center, zoom }) {
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             />
-            {showColor(casesType)}
-            {showDataOnMap(countriesData, casesType)}
+          <div>
+          
+          <Circules data={countriesData} casesType ={color}></Circules>
+          <Circules data={vaccine} casesType ="vaccine"></Circules>
+          </div>
+           
+            
+
           </MapContainer>
         </Grid>
 
         <Grid item xs={12} sm={12} md={12} lg={4} style={{ color: "black", padding: "15px" }}>
           <CountryTable
-            countries={countriesData} type={casesType} stopped={stopped}>
+            countries={countriesData} type={color} stopped={stopped}>
           </CountryTable>
         </Grid>
       </Grid>
-
+      
     </div>
   );
 }

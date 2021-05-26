@@ -9,7 +9,7 @@ import {
 import Grid from '@material-ui/core/Grid';
 import Graph from './Graph';
 import { makeStyles } from '@material-ui/core/styles';
-
+import TableCompareCountries from './TableCompareCountries';
 
 
 /**
@@ -61,10 +61,21 @@ function CompareCountries(data) {
             <Card container>
                 <CardContent>
                     <Grid container >
+                    <Grid item xs={12} sm={12} md={12} lg={4} >
+                           
+                           <TableCompareCountries
+                           firstCountry = {country}
+                           secondCountry = {country2}
+                           
+                           ></TableCompareCountries>
+
+                        </Grid>
                         {data?.data.length > 0 && (
                             <Grid item xs={12} sm={12} md={12} lg={8} style={{ display: "flex", justifyContent: "center" }}>
-                            <FormControl className={classes.formControl}>
-                                
+
+                                <FormControl className={classes.formControl}>
+
+                                    <h3>Select  country </h3>
                                     <Select style={{ margin: "15px" }}
                                         variant="outlined"
                                         onChange={onCountryChange}
@@ -72,10 +83,10 @@ function CompareCountries(data) {
                                     >
                                         <MenuItem value=""></MenuItem>
                                         {data.data.map((country) => (
-                                            <MenuItem value={country.value} key={country.name} >{country.name}</MenuItem>
+                                            <MenuItem value={country.name} key={country.name} >{country.name}</MenuItem>
                                         ))}
                                     </Select>
-
+                                    <h3>Select country </h3>
                                     <Select style={{ margin: "15px" }}
                                         variant="outlined"
                                         onChange={onCountryChange2}
@@ -83,17 +94,16 @@ function CompareCountries(data) {
                                     >
                                         <MenuItem value=""></MenuItem>
                                         {data.data.map((country) => (
-                                            <MenuItem value={country.value} key={country.name} >{country.name}</MenuItem>
+                                            <MenuItem value={country.name} key={country.name} >{country.name}</MenuItem>
                                         ))}
                                     </Select>
-                                
-                            </FormControl>
-                            <Graph country1={country} country2={country2} ></Graph>
+
+                                </FormControl>
+                                <Graph country1={country} country2={country2} ></Graph>
                             </Grid>
                         )}
-                        <Grid item xs={12} sm={12} md={12} lg={4} >
-                                </Grid>
                         
+
                     </Grid>
                 </CardContent>
             </Card>

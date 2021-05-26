@@ -9,7 +9,7 @@ import GavelIcon from '@material-ui/icons/Gavel';
 
 const Restrictions = (props) => {
 
-    console.log(props)
+    
 
     let restrictionsArray = [ {"A" : ['Between 01:00 a.m. and 6:00 a.m. from May 24.',
                                     'No restrictions on night mobility.',

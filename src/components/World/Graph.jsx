@@ -73,7 +73,7 @@ function Graph({ caseType, country1, country2 }) {
     const [data2, setData2] = useState({})
 
    
-    console.log(country1, country2)
+    
     useEffect(() => {
         const fetchData = async () => {
             await fetch("https://disease.sh/v3/covid-19/historical/" + country1 + "?lastdays=all")

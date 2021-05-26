@@ -17,7 +17,7 @@ class LoadDataTask {
                 complete: (result) => this.#processCovidData(result.data),
             })   
         }catch(error){
-            console.log(error)
+            
         }
         
     }

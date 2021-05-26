@@ -558,7 +558,7 @@ function onEachFeature(feature, layer) {
             Provincia: {name: e.target.feature.properties.name, total:e.target.feature.properties.total_casos_provincia,  hosp: e.target.feature.properties.total_hosp_provincia, uci: e.target.feature.properties.total_uci_provincia, def: e.target.feature.properties.total_def_provincia }
           }]
 
-          console.log(feature)
+          
            
 
           layer.bindPopup('<div class="info">'
