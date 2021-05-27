@@ -1,19 +1,25 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Line } from 'react-chartjs-2';
-import numeral from "numeral";
+
 
 const options = {
-
 };
+
+/**
+ * This component generates a Graph based on the given country or countries and the type of case the user wants,
+ *  since we need an historical of cases, this component makes an API call to get the countries data.
+ * @param {*} data Country[]
+ * @param {String} caseType 
+ * @returns 
+ */
+
 
 function formatData(data, caseType = 'cases') {
     let chartData = [];
     let lastDataPoint;
-    for (let date in data.timeline?.cases) {
+    for (let date in data.timeline?.cases){
         if (lastDataPoint) {
-            if (lastDataPoint > data.timeline[caseType][date]) {
-
-            } else {
+            if (!(lastDataPoint > data.timeline[caseType][date])) {
                 let newDataPoint = {
                     x: date,
                     y: data.timeline[caseType][date] - lastDataPoint,

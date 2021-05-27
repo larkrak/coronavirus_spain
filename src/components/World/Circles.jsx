@@ -2,12 +2,17 @@ import React, {useEffect, useState} from 'react'
 import { Circle, Popup } from "react-leaflet";
 import numeral from "numeral";
 
-
+/**
+ * This component is in charge of generating the <Circle LeafLet> that willl be displayed on the map.
+ * @author Darryl
+ * @date May/27/2021
+ * @param {contries, caseType}  
+ * @returns {<Circle leaflet>}
+ */
 function Circles({data, casesType=""}) {
 
 
   const [color, setColor] = useState("");
-    
   const casesTypeColors = {
     cases: {
       hex: "#CC1034",
@@ -39,15 +44,11 @@ function Circles({data, casesType=""}) {
       
       
       <Circle
-
-      
       center= {[country.countryInfo.lat? country.countryInfo.lat:0, country.countryInfo.long? country.countryInfo.long: 0]}
       pathOptions={{
-
         color:casesTypeColors[casesType].hex,
         fillColor:casesTypeColors[casesType].hex
       }}
-     
       fillOpacity={0.4}
       radius={ 
         Math.sqrt(country[casesType]) * casesTypeColors[casesType].multiplier
@@ -79,10 +80,8 @@ function Circles({data, casesType=""}) {
     
    ))
 
-      
-
+   //This hook will update the color of the circles everytime the data or casesType changes. 
       useEffect(()=>{
-
         const casesTypeColors = {
             cases: {
               hex: "#CC1034",
@@ -103,21 +102,8 @@ function Circles({data, casesType=""}) {
             }
             
           };
-
           setColor(casesTypeColors[casesType].hex)
-          
-          
-        
       },[color,data,casesType]);
-   
-
-       
-
-     
-       
-     
-
-     
 
     return (
         <div>

@@ -2,7 +2,15 @@ import { Card, CardContent, Typography } from '@material-ui/core';
 import React from 'react';
 import {prettyPrintStat} from "../../utilities/util"
 import "./Status.css"
-
+/**
+ * This component displays information of cases and when it is click it trigers a function given by its parent component.
+ * @param {*} title 
+ * @param {*} active
+ * @param {*} isRed
+ * @param {*} cases
+ * @param {*} param0 
+ * @returns 
+ */
 
 function Status({title, active, isRed, cases, total , ...props}) {
     return (

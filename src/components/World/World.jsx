@@ -1,4 +1,11 @@
-//Import react
+/**
+ * This is the MAIN component of the World section, this controls all the Status,WorldMap and CompareCountries components.
+ * @author Darryl Estrada
+ * @Version 1.0.0
+ * @Date May/27/2021
+ * 
+ */
+
 import React, { useState, useEffect } from "react";
 //Import components
 import Status from "./Status";
@@ -20,7 +27,7 @@ import {
 
 
 function World() {
-  /*We can use hooks to loop through all the countries*/
+  /*List of hooks */
 
   const [countries, setCountries] = useState([]);
   const [country, setCountry] = useState("world");
@@ -53,7 +60,10 @@ function World() {
 
   useEffect(() => {
     /**
-     * We create a async function with a promise, it is waiting for a response from the external API.
+     * Download a list of countries that disease.sh work with.
+     * @async
+     * @function getCountriesData
+     * @return  {} the collected data is transformed into a countries. 
      */
     const getCountriesData = async () => {
       await fetch("https://disease.sh/v3/covid-19/countries")
@@ -64,7 +74,7 @@ function World() {
             value: country.countryInfo.iso3,
           }));
           
-          
+          //Setting the countries into this information used to create a select input.
           setCountries(countries);
           setMapCountries(data);
           

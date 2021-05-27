@@ -15,6 +15,19 @@ import Circles from './Circles';
 import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
 
+/**
+ * 
+ * This is probably the most interesting component of all, here I control what is sent to the CountryTable and Circles Components, 
+ * It is based on a setInterval function to simulate a player, since React-Leaflet does not have that feature developed yet, 
+ * I had to make my own player, every 200ms the circles on the map will change and new circles will be display the map,
+ * the same information is sent to the CountryTable component so it changes the value of the table. 
+ * Making the illusion that it is a video but it is not.
+ * @param {*} countries
+ * @param {*} casesType
+ * @param {*} center
+ * @param {*} zoom 
+ * @returns 
+ */
 
 
 function WorldMap({ countries, casesType, center, zoom }) {
@@ -59,14 +72,16 @@ function WorldMap({ countries, casesType, center, zoom }) {
           vaccinated: getVaccinated(country.country, formattedDate),
           countryInfo: getCountryInfo(country.country),
         }));
-
-
-
         setCountriesData(countries2);
 
       }, 200)
     }
-
+    /**
+     * Get the number of vaccinated in a given date.
+     * @param {*} country 
+     * @param {String} formatted 
+     * @returns 
+     */
     function getVaccinated(country, formatted) {
       let found;
       for (var i = 0; i < globalVaccine.length; i++) {
@@ -74,16 +89,21 @@ function WorldMap({ countries, casesType, center, zoom }) {
           found = globalVaccine[i].timeline[formatted] ? globalVaccine[i].timeline[formatted] : 0;
         }
       }
-
       return found;
     }
+
+    /**
+     * Get country info(flag, lat, long)
+     * @param {String} country 
+     * @returns 
+     */
+
     function getCountryInfo(country) {
       let found = {}
       for (var i = 0; i < countries.length; i++) {
         if (countries[i].country === country) {
           found = countries[i].countryInfo
         }
-
       }
       return found;
     }
@@ -113,6 +133,7 @@ function WorldMap({ countries, casesType, center, zoom }) {
       await fetch("https://disease.sh/v3/covid-19/vaccine/coverage/countries?lastdays=all&fullData=false")
         .then((response) => response.json())
         .then((data) => {
+          //Filter nulls 
           var filtered = data.filter(function (el) {
             return el != null;
           });
@@ -124,11 +145,40 @@ function WorldMap({ countries, casesType, center, zoom }) {
   }, [countries]);
 
   function stopTimer() {
+
+    function getVaccinated(country, formatted) {
+      let found;
+      for (var i = 0; i < globalVaccine.length; i++) {
+        if (globalVaccine[i].country === country) {
+          found = globalVaccine[i].timeline[formatted] ? globalVaccine[i].timeline[formatted] : 0;
+        }
+      }
+      return found;
+    }
+    function getCountryInfo(country) {
+      let found = {}
+      for (var i = 0; i < countries.length; i++) {
+        if (countries[i].country === country) {
+          found = countries[i].countryInfo
+        }
+      }
+      return found;
+    }
+
     setStopped(true);
     setIsActive(false);
     setFormattedDate("1/29/20")
     setDate(moment("1/29/20", "MM/DD/YY"))
-    setCountriesData(countries)
+    const countries2 = global.map((country) => ({
+      country: country.country,
+      cases: country.timeline.cases[formattedDate],
+      deaths: country.timeline.deaths[formattedDate],
+      recovered: country.timeline.recovered[formattedDate],
+      vaccinated: getVaccinated(country.country, formattedDate),
+      countryInfo: getCountryInfo(country.country),
+    }));
+    setCountriesData(countries2);
+
   }
 
 
@@ -157,46 +207,9 @@ function WorldMap({ countries, casesType, center, zoom }) {
 
     <div className="map">
       <Grid container style={{ color: "white", display: "flex", flexDirection: "row", textAlign: "center" }}>
-
         <Grid item xs={12} sm={12} md={12} lg={8} style={{ padding: "15px" }}>
-          <Grid item xs={12} sm={12} md={12} lg={12} style={{ padding: "15px", display: "flex", alignItems: "center", fontSize: "22px", color: "black" }}>
-            <Grid item xs={12} sm={12} md={12} lg={10}>
-
-              <div style={{ display: "flex" }}>
-
-                <Button
-                  onClick={() => setCasesActive(!casesActive)}
-                >
-                  <div >
-                    <div class='box ' style={{ backgroundColor: casesTypeColors[casesType].hex }}>
-
-                    </div>
-                   
-                    {casesType}
-                    {casesActive?  <CheckIcon></CheckIcon>: <ClearIcon></ClearIcon>}
-
-                  </div>
-                  
-                </Button>
-
-
-                <Button
-                  onClick={() => setVaccineActive(!vaccineActive)}
-                >
-                  <div><div class='box' style={{ backgroundColor: "blue" }}></div> 
-                  
-                  Vaccination
-                  {vaccineActive?  <CheckIcon></CheckIcon>: <ClearIcon></ClearIcon>}
-                  </div>
-                 
-                </Button>
-
-
-                <span><strong>Date: {formattedDate}</strong></span>
-
-              </div>
-            </Grid>
-            <Grid item xs={12} sm={12} md={12} lg={2} style={{ display: "flex", justifyContent: "space-between" }}>
+          <Grid container style={{ padding: "15px", fontSize: "22px", color: "black" }}>
+            <Grid item xs={6} sm={6} md={6} lg={2} >
               <Button
                 variant="contained"
                 color="default"
@@ -208,6 +221,43 @@ function WorldMap({ countries, casesType, center, zoom }) {
                 onClick={stopTimer}
               >{<StopIcon></StopIcon>}</Button>
             </Grid>
+            <Grid item xs={6} sm={6} md={6} lg={6} >
+              <p><strong>Date: {formattedDate}</strong></p>
+              </Grid>
+            <Grid item xs={12} sm={6} md={6} lg={4} >
+              <div style={{textAlign: 'end'}}>
+              <Button
+                  onClick={() => setCasesActive(!casesActive)}
+                >
+                  <Grid container direction = "row" alignItems="center">
+                    <Grid item>
+                   <div class='box' style={{ backgroundColor: casesTypeColors[casesType].hex, marginTop: "8px", marginRight:"5px" }}></div>
+                    </Grid>
+                    <Grid item>
+                    {casesType}
+                    </Grid>
+                    <Grid item>
+                    {casesActive ? <CheckIcon></CheckIcon> : <ClearIcon></ClearIcon>}
+                    </Grid>
+                  </Grid>
+                </Button>
+                <Button
+                  onClick={() => setVaccineActive(!vaccineActive)}
+                >
+                   <Grid container direction = "row" alignItems="center">
+                    <Grid item>
+                    <div class='box' style={{ backgroundColor: "blue",marginTop: "8px",marginRight:"5px"}}></div>
+                    </Grid>
+                   </Grid>
+                  <Grid>
+                  Vaccination
+                  </Grid>
+                    <Grid>
+                    {vaccineActive ? <CheckIcon></CheckIcon> : <ClearIcon></ClearIcon>}
+                    </Grid>    
+                </Button>
+              </div>     
+            </Grid>
           </Grid>
 
           <MapContainer center={center} zoom={zoom} timeDimension={true}>
@@ -216,23 +266,9 @@ function WorldMap({ countries, casesType, center, zoom }) {
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             />
             <div>
-              {casesActive && (
-
-                <Circles data={countriesData} casesType={color}></Circles>
-
-              )}
-
-              {vaccineActive && (
-                <Circles data={countriesData} casesType="vaccinated"></Circles>
-              )
-
-              }
-
-
+              {casesActive && (<Circles data={countriesData} casesType={color}></Circles>)}
+              {vaccineActive && (<Circles data={countriesData} casesType="vaccinated"></Circles>)}
             </div>
-
-
-
           </MapContainer>
         </Grid>
 
@@ -242,7 +278,6 @@ function WorldMap({ countries, casesType, center, zoom }) {
           </CountryTable>
         </Grid>
       </Grid>
-
     </div>
   );
 }

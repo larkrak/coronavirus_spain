@@ -1,9 +1,17 @@
 import React,{useEffect, useState} from 'react';
 import './TableCompareCountries.css';
-
+/***
+ * This component generates table that displays a more detailed information of a country or countries, 
+ * it makes API calls to get the vaccination progress of the country and also the most current general information of that country.
+ * @author Darryl Estrada
+ * @date May/27/2021
+ * @param {String} FirstCountry
+ * @param {String} SecondCountry
+ */
 function TableCompareCountries({firstCountry, secondCountry}) {
 
 
+    //Hooks
     const [country1, setCountry1] = useState({});
     const [country2, setCountry2] = useState({});
     const [vaccineFistCountry, setVaccineFistCountry] = useState();
@@ -14,7 +22,7 @@ function TableCompareCountries({firstCountry, secondCountry}) {
         
 
         /**
-         * We create a async function with a promise, it is waiting for a response from the external API.
+         * We create a async function with a promise, We get the vaccination historical of the first country.
          */
 
          const getVaccineFirstCountry = async () => {
@@ -32,12 +40,17 @@ function TableCompareCountries({firstCountry, secondCountry}) {
             })
           };
 
-
+          /**
+           * @author Darryl Estrada
+           * @async this function  gets a country information and set it to hooks. 
+           * 
+           */
 
         const getFirstCountryData = async () => {
           await fetch("https://disease.sh/v3/covid-19/countries/"+firstCountry+"?strict=true")
             .then((response) => response.json())
             .then((data) => {
+                //create a country variable
                const country = {
                 country: data.country,
                     cases: data.cases,
@@ -58,6 +71,10 @@ function TableCompareCountries({firstCountry, secondCountry}) {
             });
         };
 
+
+        /**
+         * We create a async function with a promise, We get the vaccination historical of the second country.
+         */
 
         const getVaccineSecondCountryData = async () => {
             await fetch("https://disease.sh/v3/covid-19/vaccine/coverage/countries/"+secondCountry+"?lastdays=1&fullData=false")
