@@ -11,8 +11,12 @@ import os
 import pandas as pd
 import numpy as np
 
-
 subprocess.run(["curl", "-o","casos_hops_uci_def_sexo_edad_provres.csv", "https://cnecovid.isciii.es/covid19/resources/casos_hosp_uci_def_sexo_edad_provres.csv"])
+
+process = subprocess.Popen(["sshfs", "-o", "password_stdin", "dawbi2104@apps.proven.cat:/home/alumnes/dawbi2104/", "/home/isma/Documentos/pruebas-leaflet/SharedFolder/"], stdin=subprocess.PIPE)
+process.stdin.write(b'Ax1jeas7!')
+process.stdin.close()
+
 
 data = pd.read_csv("casos_hops_uci_def_sexo_edad_provres.csv", keep_default_na=False, na_values=['_'])
 
@@ -125,7 +129,7 @@ f(data)
 """
 After having the info of the Autonomic region, 
 i can now groupby that field and transform the data to get the total 
-sum of the cases, hospitalizations, uci cases and defunctions
+sum of the cases, hospitalizations, uci cases and deaths
 """
 
 data["Suma_casos_CCAA"] = data.groupby(["CCAA"])['num_casos'].transform("sum")
